@@ -60,11 +60,11 @@
 <script lang="ts" setup>
 import { ref, onMounted, watch } from 'vue';
 import type { SelectProps } from 'ant-design-vue';
-import ProductList from '../components/Product/ProductList.vue';
-import httpService from '../services/http.service';
-import { Brand_API, Category_API } from '../services/api_url';
-import { useTableData } from '../hooks/Data';
-import { toImageLink } from '../services/common.service';
+import ProductList from '../../components/Product/ProductList.vue';
+import httpService from '../../services/http.service';
+import { Brand_API, Category_API } from '../../services/api_url';
+import { useTableData } from '../../hooks/Data';
+import { toImageLink } from '../../services/common.service';
 import { useRouter, useRoute } from 'vue-router';
 
 const getPopupContainer = (triggerNode: any) => triggerNode.parentNode

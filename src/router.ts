@@ -6,22 +6,29 @@ import Register from './views/Auth/Register.vue'
 
 import Home from './views/Home.vue'
 
-import Product from './views/Product.vue'
+import Product from './views/Product/Product.vue'
 import ProductDetail from './views/Product/ProductDetail.vue'
 
 import About from './views/About.vue'
 
 import Contact from './views/Contact.vue'
 
-import Order from './views/Order.vue'
-import Favorite from './views/Favorite.vue'
+import Order from './views/Order/Order.vue'
+import OrderDetail from './views/Order/OrderDetail.vue'
+
+import Favorite from './views/Personal/Favorite.vue'
+
+import Personal from './views/Personal/Personal.vue'
 
 import Cart from './views/Cart.vue'
 
 import Checkout from './views/Checkout.vue'
+
+import PaymentResult from './views/PaymentResult.vue'
+
 import NotFound from './views/NotFound.vue'
 
-// import test from "./components/test.vue";
+import test from './components/test.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -71,12 +78,23 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/order',
     name: 'Order',
-    component: Order,
+    component: test,
+  },
+  {
+    path: '/order/:id',
+    name: 'Order Detail',
+    component: OrderDetail,
+    props: true,
   },
   {
     path: '/favorite',
     name: 'Favorite',
     component: Favorite,
+  },
+  {
+    path: '/info',
+    name: 'Information',
+    component: Personal,
   },
   {
     path: '/cart',
@@ -89,9 +107,20 @@ const routes: RouteRecordRaw[] = [
     component: Checkout,
   },
   {
+    path: '/paymentresult',
+    name: 'Payment Result',
+    component: PaymentResult,
+    meta: { layout: 'empty' },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'notfound',
     component: NotFound,
+  },
+  {
+    path: '/test',
+    name: 'notfound',
+    component: test,
   },
 ]
 

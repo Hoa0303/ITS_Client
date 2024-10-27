@@ -2,14 +2,17 @@ import { ref } from 'vue';
 
 export interface Product {
     id: number;
+    colorId: number;
     name: string;
     discount: number;
     category: string;
     brand: string;
+    rating: number;
     imageUrl: string;
     sizescreen: number;
     ram: number;
     rom: number;
+    cpu: string;
     price: number;
 }
 
@@ -43,6 +46,8 @@ export interface ProductsData {
     price: number;
     version: string;
     line: string;
+    rating:number;
+    ratingCount: number;
 }
 
 export function useTableData() {

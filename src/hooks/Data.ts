@@ -33,6 +33,21 @@ export interface CartTableData {
   showIcon: boolean
 }
 
+export interface ReviewData {
+  id: number
+  description: string
+  start: number
+  fullName: string
+  createAt: string
+}
+
+export interface NameData {
+  id: number
+  name: string
+  imageUrl: string
+  colorName: string
+}
+
 export function useTableData() {
   //Brands Data
   const brandsData = ref<BrandsTableData[]>([])
@@ -58,6 +73,18 @@ export function useTableData() {
     cartData.value = data
   }
 
+  //Name Data
+  const nameData = ref<NameData[]>([])
+  function setNameData(data: NameData[]) {
+    nameData.value = data
+  }
+
+  //Review Data
+  const reviewData = ref<ReviewData[]>([])
+  function setReviewData(data: ReviewData[]) {
+    reviewData.value = data
+  }
+
   return {
     brandsData,
     setBrandsData,
@@ -67,5 +94,9 @@ export function useTableData() {
     setColorData,
     cartData,
     setCartData,
+    nameData,
+    setNameData,
+    reviewData,
+    setReviewData,
   }
 }

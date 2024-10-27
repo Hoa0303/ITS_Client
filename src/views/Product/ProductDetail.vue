@@ -35,14 +35,22 @@
                         <div class="font-semibold text-xs">{{ item.version }}</div>
                         <div class="text-xs">{{ fomratVND(item.price) }}</div>
                     </router-link>
+                    <!-- <div v-for="(item) in productsVersion" :key="item.id"
+                        class="flex-col flex justify-center items-center gap-1 py-2 border-solid border border-gray-300 rounded-lg"
+                        :class="{ 'bg-gray-200': selectedVersionId === item.id }" @click="setSelectedVersion(item.id)">
+                        <div class="font-semibold text-xs">{{ item.version }}</div>
+                        <div class="text-xs">{{ fomratVND(item.price) }}</div>
+                    </div> -->
                 </div>
 
                 <!-- Colors -->
                 <p class="pt-4">Colors</p>
                 <div class="grid grid-cols-3 gap-3">
-                    <div v-for="(item, index) in productsData[0]?.color" :key="index" @click="selectColor(index)">
+                    <div v-for="(item, index) in productsData[0]?.color" :key="index"
+                        @click="item.quantity > 0 ? selectColor(index) : null">
                         <div class="flex items-center border-solid border-[1.5px] border-gray-300 rounded-lg cursor-pointer py-1"
-                            :class="{ 'bg-gray-200': selectedColorIndex === index }">
+                            :class="{ 'bg-gray-200': selectedColorIndex === index, 'opacity-50 cursor-not-allowed': item.quantity === 0 }"
+                            :style="{ pointerEvents: item.quantity === 0 ? 'none' : 'auto' }">
                             <img :src="toImageLink(item.imageUrl)" class="size-10">
                             <span>
                                 <p class="m-1 font-semibold text-[0.7rem]">{{ colorNames[index] }}</p>
@@ -80,9 +88,8 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 gap-3">
             <!-- Rate & Comment -->
-            <div class="lg:col-span-5 md:col-span-4 border-solid border-2 p-4 border-gray-50 rounded-md shadow-lg">
-                Đánh giá nhận xét
-            </div>
+            <ProductReview :productId="parseInt(props.id)" :rating="rating" :ratingCount="ratingCount"
+                :productName="productName" />
 
             <!-- Specifications -->
             <div
@@ -175,6 +182,9 @@ import { fomratVND, toImageLink } from '../../services/common.service';
 import httpService from '../../services/http.service';
 import { Cart_API, Color_API, Product_API } from '../../services/api_url';
 import productService from '../../services/product.service';
+import { message } from 'ant-design-vue';
+import { useRouter } from 'vue-router';
+import ProductReview from '../../components/Product/ProductReview.vue';
 
 interface Props {
     id: string;
@@ -185,6 +195,9 @@ const { productsData, setProductData } = useTableData();
 const { productsVersion, setProductVersion } = useTableData();
 
 const productName = ref('');
+const rating = ref<number>(0);
+const ratingCount = ref<number>(0);
+
 const selectedVersionId = ref<number | null>(null);
 const colorNames = ref<string[]>([]);
 
@@ -241,6 +254,8 @@ async function getProduct(id: number) {
         if (res) {
             const product: ProductsData = res;
             productName.value = product.name;
+            rating.value = product.rating;
+            ratingCount.value = product.ratingCount;
             setProductData([product]);
 
             screen.value = [
@@ -250,8 +265,8 @@ async function getProduct(id: number) {
             ];
 
             camera.value = [
-                { key: '1', name: 'Rear camera', detail: product.rearCam },
-                { key: '2', name: 'Front camera', detail: product.frontCam },
+                { key: '1', name: 'Rear camera', detail: product.rearCam === '0' ? '' : product.rearCam },
+                { key: '2', name: 'Front camera', detail: product.frontCam === '0' ? '' : product.rearCam },
             ];
 
             specifications.value = [
@@ -297,8 +312,11 @@ async function getVersion(searchkey: any) {
     setProductVersion(formattedData);
 }
 
+const router = useRouter();
+
 function setSelectedVersion(id: number) {
     selectedVersionId.value = id;
+    // router.replace(`/product/${id}`)
 }
 
 function selectColor(index: number) {
@@ -324,9 +342,10 @@ async function addToCart() {
         }
         const res = await httpService.postWithAuth(Cart_API, data);
         console.log(res);
+        message.success('Item has been added to your shopping cart')
     }
     catch {
-        console.error('Error:');
+        message.error('Fail to added to your shopping cart');
     }
 };
 
@@ -353,7 +372,6 @@ watch(
         }
     }
 );
-
 </script>
 
 <style scoped>

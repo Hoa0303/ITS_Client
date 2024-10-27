@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import { get } from 'lodash'
 
 const API_URL = 'https://localhost:7171/api' + '/auth'
 
@@ -8,7 +9,6 @@ const login = async (data: any) =>
     const expires = 12 * 60 * 60 * 1000
     const in12Hour = new Date(new Date().getTime() + expires)
     Cookies.set('client_data', JSON.stringify(res.data), { expires: in12Hour })
-    // Cookies.set('Client_name_data', JSON.stringify(res.data.name), { expires: in12Hour })
     return res
   })
 
@@ -27,6 +27,13 @@ const register = async (data: any) =>
 const getAuthCookie = () => {
   var data = Cookies.get('client_data')
   return data ? JSON.parse(data) : data
+}
+
+export const getAuthName = () => {
+  const token = getAuthCookie()
+  if(token && token.name){
+    return token.name
+  }
 }
 
 export const getAuthHeader = () => {

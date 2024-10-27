@@ -19,10 +19,10 @@
                                 <router-link to="/order">Orders</router-link>
                             </a-menu-item>
                             <a-menu-item>
-                                <a href="javascript:;">Favorites</a>
+                                <router-link to="/favorite">Favorites</router-link>
                             </a-menu-item>
                             <a-menu-item>
-                                <a href="javascript:;">Personal</a>
+                                <router-link to="/info">Personal</router-link>
                             </a-menu-item>
                             <a-menu-item>
                                 <a href="javascript:;">Log out</a>
@@ -31,7 +31,7 @@
                     </template>
                 </a-dropdown>
 
-                <a-dropdown trigger="['click']">
+                <!-- <a-dropdown trigger="['click']">
                     <GlobalOutlined class="text-xl p-1" />
                     <template #overlay>
                         <a-menu>
@@ -43,7 +43,7 @@
                             </a-menu-item>
                         </a-menu>
                     </template>
-                </a-dropdown>
+                </a-dropdown> -->
 
                 <router-link v-if="!cookieExists" to="/login">
                     <ShoppingCartOutlined class="text-2xl p-1" />
@@ -52,7 +52,7 @@
                 <a-drawer title="My cart" :footer-style="{ textAlign: 'right' }" :closable="false" :open="open"
                     @close="onClose">
 
-                    <CartComponent @updateCart="handleCartUpdate" />
+                    <CartComponent ref="cartComponentRef" @updateCart="handleCartUpdate" />
 
                     <template #footer>
                         <a-button style="margin-right: 8px" size="large">
@@ -109,8 +109,13 @@ const checkout = () => {
     onClose();
 };
 
+const cartComponentRef = ref<InstanceType<typeof CartComponent> | null>(null);
+
 const showDrawer = () => {
     open.value = true;
+    if (cartComponentRef.value) {
+        cartComponentRef.value.getCart();
+    }
 };
 
 const onClose = () => {

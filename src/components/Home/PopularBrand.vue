@@ -13,8 +13,10 @@
                 </div>
             </template>
             <div v-for="(item, index) in brandsData" :key="index" class="h-32 px-5">
-                <img :src="item.image"
-                    class="w-full select-none h-32 object-contain cursor-pointer filter grayscale hover:filter-none" />
+                <router-link :to="`/product?BrandIds=${item.id}`">
+                    <img :src="item.image"
+                        class="w-full select-none h-32 object-contain cursor-pointer filter grayscale hover:filter-none" />
+                </router-link>
             </div>
         </a-carousel>
     </div>

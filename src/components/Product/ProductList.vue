@@ -2,33 +2,44 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-4">
         <div v-if="(products.length == 0)" class="">Not Found</div>
         <div v-for="(item, index) in products" :key="index">
-            <router-link :to="{ name: 'Details', params: { id: item.id.toString() } }">
-                <a-badge-ribbon :text="'-' + item.discount + '%'" color="red" placement="start">
-                    <a-card class="relative rounded-lg overflow-hidden shadow-lg" :bodyStyle="{ padding: '1rem' }">
+            <a-badge-ribbon :text="'-' + item.discount + '%'" color="red" placement="start">
+                <a-card class="relative rounded-lg overflow-hidden shadow-lg" :bodyStyle="{ padding: '1rem' }">
+                    <router-link :to="{ name: 'Details', params: { id: item.id.toString() } }">
                         <img :src="item.imageUrl" class="w-full h-48 object-contain" />
-                        <div class="p-4">
-                            <p class="text-lg font-semibold mb-2 h-14">{{ item.name }}</p>
-                            <div class="flex flex-wrap mb-4 justify-between">
-                                <a-button size="small" class="bg-gray-200">{{ item.sizescreen }} inches</a-button>
-                                <a-button size="small" class="bg-gray-200">{{ item.ram }} GB</a-button>
-                                <a-button size="small" class="bg-gray-200">{{ item.rom }} GB</a-button>
-                            </div>
-                            <div class="flex items-baseline gap-2 mb-4">
-                                <p class="text-xl font-bold text-red-500">{{ fomratVND(item.price - (item.price *
-                                    (item.discount / 100))) }}</p>
-                                <p class="line-through text-gray-500">{{ fomratVND(item.price) }}</p>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <a-rate :value="5" class="text-yellow-500" disabled />
-                                <HeartOutlined class="text-red-500 text-xl" />
-                            </div>
+                    </router-link>
+
+                    <div class="p-4">
+                        <router-link :to="{ name: 'Details', params: { id: item.id.toString() } }">
+                            <div class="text-lg font-semibold mb-2 h-14 hover:text-green-500 line-clamp-2">{{ item.name
+                                }}</div>
+                        </router-link>
+
+                        <div class="flex flex-wrap mb-2 justify-start">
+                            <a-tag class="my-1" color="cyan">{{ item.sizescreen }} inches</a-tag>
+                            <a-tag class="my-1" color="blue">{{ item.ram }} GB</a-tag>
+                            <a-tag class="my-1" color="purple">
+                                {{ item.rom === 1 ? '1TB' : item.rom + 'GB' }}
+                            </a-tag>
                         </div>
-                    </a-card>
-                </a-badge-ribbon>
-            </router-link>
+
+                        <div class="flex items-baseline gap-2 mb-2">
+                            <div class="text-xl font-bold text-red-500">{{ fomratVND(item.price - (item.price *
+                                (item.discount / 100))) }}</div>
+                            <div class="line-through text-gray-500">{{ fomratVND(item.price) }}</div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <a-rate :value="item.rating" class="text-yellow-500" disabled allow-half />
+                            <component :is="isFavorite(item.id) ? HeartFilled : HeartOutlined"
+                                @click="editFavorite(item.id)" :style="{ color: isFavorite(item.id) ? 'red' : 'gray' }"
+                                class="text-xl select-none" />
+                        </div>
+                    </div>
+                </a-card>
+            </a-badge-ribbon>
         </div>
     </div>
-    <div class="flex justify-center pb-4" v-if="(products.length > 0)">
+    <div class="flex justify-center pb-4" v-if="(products.length > 0 && pageSize < totalItems)">
         <a-button size="large" @click="addPageSize">
             Load more
         </a-button>
@@ -37,12 +48,14 @@
 
 <script lang="ts" setup>
 import { onMounted, ref, watch } from "vue";
-import { HeartOutlined } from '@ant-design/icons-vue';
+import { HeartOutlined, HeartFilled } from '@ant-design/icons-vue';
 import { useTableData } from "../../hooks/productData";
 import productService from '../../services/product.service';
 import { fomratVND, toImageLink } from "../../services/common.service";
 import { debounce } from 'lodash';
 import { useRoute } from 'vue-router';
+import httpService from "../../services/http.service";
+import { User_API } from "../../services/api_url";
 
 const { products, setProduct } = useTableData();
 const props = defineProps({
@@ -53,13 +66,15 @@ const props = defineProps({
     selectedBrands: { type: Array, default: () => [] },
     selectedRams: { type: Array, default: () => [] },
 });
-const route = useRoute();
 
-const pageSize = ref(4);
+const route = useRoute();
+const pageSize = ref(8);
+const totalItems = ref();
 const searchKey = route.query.search;
+const favoriteProducts = ref<number[]>([]);
 
 function addPageSize() {
-    pageSize.value += 2;
+    pageSize.value += 4;
 }
 
 async function filterProduct() {
@@ -93,26 +108,61 @@ async function filterProduct() {
 
     try {
         const res = await productService.filterProduct(params);
+        totalItems.value = res.data.totalItems
+
         const formattedData = res.data.items.map((item: any) => ({
             id: item.id,
             name: item.name,
             discount: item.discount,
             category: item.categoryName,
             brand: item.brandName,
+            rating: item.rating,
             imageUrl: toImageLink(item.imageUrl),
             sizescreen: item.sizeScreen,
             ram: item.ram,
             rom: item.rom,
             price: item.price,
         }));
-
         setProduct(formattedData);
+        // console.log(products.value);        
     } catch (error) {
         console.error("Error filtering products: ", error);
     }
 }
 
-const debouncedFilterProduct = debounce(filterProduct, 900);
+async function editFavorite(id: number) {
+    try {
+        if (isFavorite(id)) {
+            const res = await httpService.delWithAuth(User_API + `/favorite/${id}`);
+            favoriteProducts.value = favoriteProducts.value.filter(favId => favId !== id)
+        } else {
+            const res = await httpService.postWithAuth(User_API + '/favorite', { id: id });
+            favoriteProducts.value.push(id);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function getFavorite() {
+    try {
+        const res = await httpService.getWithAuth(User_API + '/favorite');
+        favoriteProducts.value = res.map((item: any) => item);
+    }
+    catch (error) {
+        console.log(error)
+    }
+}
+
+function isFavorite(id: number): boolean {
+    return favoriteProducts.value.includes(id);
+}
+
+onMounted(() => {
+    getFavorite();
+})
+
+const debouncedFilterProduct = debounce(filterProduct, 550);
 
 watch(
     () => [props.minprices, props.maxprices, props.selectedCategories, props.selectedBrands, props.selectedRams, props.sortData, pageSize.value, searchKey],
@@ -123,3 +173,10 @@ watch(
 
 filterProduct();
 </script>
+
+<style scoped>
+img:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+</style>

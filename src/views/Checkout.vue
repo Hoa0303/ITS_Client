@@ -17,119 +17,28 @@
             Checkout
         </div>
 
-        <!-- <div class="grid lg:grid-cols-4 sm:grid-cols-1 justify-between p-4 gap-8">
-            <div class="lg:col-span-3 p-4">
-                <div key="1" class="py-1">
-                    <div class="text-start text-4xl py-5">
-                        <span class="text-gray-400 select-none">1. </span>Contact Information
-                    </div>
-                    <div class="">
-                        <a-form :model="formState" layout="vertical" name="nest-messages"
-                            :validate-messages="validateMessages" @finish="onFinish">
-                            <a-form-item :name="['user', 'name']" label="Name" :rules="[{ required: true }]">
-                                <a-input v-model:value="formState.user.name" size="large" />
-                            </a-form-item>
-                            <div class="grid grid-cols-2 gap-3">
-                                <a-form-item :name="['user', 'phoneNumber']" label="Phone">
-                                    <a-input v-model:value="formState.user.phoneNumber" size="large" />
-                                </a-form-item>
-                                <a-form-item :name="['user', 'email']" label="Email" :rules="[{ type: 'email' }]">
-                                    <a-input v-model:value="formState.user.email" size="large" />
-                                </a-form-item>
-                            </div>
-                        </a-form>
-                    </div>
-                </div>
-
-                <div class="py-1">
-                    <div class="text-start text-4xl py-5">
-                        <span class="text-gray-400 select-none">2. </span>Shipping
-                    </div>
-                    <div class="rounded-lg border p-4">
-                        <a-tabs v-model:activeKey="activeKey">
-
-                            <a-tab-pane key="1" tab="Pick up from store">
-                                <StoreAddress />
-                            </a-tab-pane>
-
-                            <a-tab-pane key="2" tab="Delivery" force-render>
-                                <div class="">
-                                    <a-form :model="formState" layout="vertical" name="nest-messages"
-                                        :validate-messages="validateMessages" @finish="onFinish">
-                                        <a-form-item :name="['address', 'province']" label="Province"
-                                            :rules="[{ required: true }]">
-                                            <a-select v-model:value="formState.address.province" size="large">
-                                                <a-select-option v-for="item in provinceList" :key="item.code"
-                                                    :value="item.code" @click="getDistricts(item.code)">
-                                                    {{ item.name }}
-                                                </a-select-option>
-                                            </a-select>
-                                        </a-form-item>
-                                        <div class="grid grid-cols-2 gap-3">
-                                            <a-form-item :name="['address', 'district']" label="District"
-                                                :rules="[{ required: true }]">
-                                                <a-select v-model:value="formState.address.district" size="large"
-                                                    class="w-full" :disabled="districtList.length === 0">
-                                                    <a-select-option v-for="item in districtList" :key="item.code"
-                                                        :value="item.code" @click="getWards(item.code)">
-                                                        {{ item.name }}
-                                                    </a-select-option>
-                                                </a-select>
-                                            </a-form-item>
-                                            <a-form-item :name="['address', 'ward']" label="Ward"
-                                                :rules="[{ required: true }]">
-                                                <a-select v-model:value="formState.address.ward" size="large"
-                                                    class="w-full" :disabled="wardtList.length === 0">
-                                                    <a-select-option v-for="item in wardtList" :key="item.code"
-                                                        :value="item.code">
-                                                        {{ item.name }}
-                                                    </a-select-option>
-                                                </a-select>
-                                            </a-form-item>
-                                        </div>
-                                        <a-form-item :name="['address', 'detail']" label="Detail"
-                                            :rules="[{ required: true }]">
-                                            <a-textarea v-model:value="formState.address.detail" />
-                                        </a-form-item>
-                                        <a-form-item>
-                                            <a-button type="primary" html-type="submit">Submit</a-button>
-                                        </a-form-item>
-                                    </a-form>
-                                </div>
-                            </a-tab-pane>
-                        </a-tabs>
-                    </div>
-                </div>
-
-                <div class="py-1">
-                    <div class="text-start text-4xl py-5">
-                        <span class="text-gray-400 select-none">3. </span>Payment
-                    </div>
-                    <div class="rounded-lg border">
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="rounded-lg border p-4 h-fit">
-
-            </div>
-
-        </div> -->
-
         <a-form :model="formState" layout="vertical" name="nest-messages" :validate-messages="validateMessages"
             @finish="onFinish" class="grid lg:grid-cols-4 sm:grid-cols-1 justify-between p-4 gap-8">
             <!-- Information + Address -->
             <div class="lg:col-span-3 p-4">
+                <!-- Information -->
                 <div class="py-1">
                     <div class="text-start text-4xl py-5">
                         <span class="text-gray-400 select-none">1. </span>Contact Information
                     </div>
                     <div class="">
-                        <a-form-item :name="['user', 'name']" label="Name" :rules="[{ required: true }]">
-                            <a-input v-model:value="formState.user.name" size="large" />
-                        </a-form-item>
                         <div class="grid grid-cols-2 gap-3">
+                            <a-form-item :name="['user', 'name']" label="Name" :rules="[{ required: true }]">
+                                <a-input v-model:value="formState.user.name" size="large" />
+                            </a-form-item>
+                            <a-form-item :name="['user', 'phoneNumber']" label="Phone" :rules="[
+                                { required: true, message: 'Phone number is required!' },
+                                { pattern: /^[0-9]{10}$/, message: 'Phone number is not valid!' }
+                            ]">
+                                <a-input v-model:value="formState.user.phoneNumber" size="large" />
+                            </a-form-item>
+                        </div>
+                        <!-- <div class="grid grid-cols-2 gap-3">
                             <a-form-item :name="['user', 'phoneNumber']" label="Phone" :rules="[
                                 { required: true, message: 'Phone number is required!' },
                                 { pattern: /^[0-9]{10}$/, message: 'Phone number is not valid!' }
@@ -140,10 +49,11 @@
                                 :rules="[{ required: true }, { type: 'email' }]">
                                 <a-input v-model:value="formState.user.email" size="large" disabled />
                             </a-form-item>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
+                <!-- Address -->
                 <div class="py-1">
                     <div class="text-start text-4xl py-5">
                         <span class="text-gray-400 select-none">2. </span>Shipping
@@ -159,32 +69,22 @@
                                 <div class="">
                                     <a-form-item :name="['address', 'province']" label="Province"
                                         :rules="[{ required: true }]">
-                                        <a-select v-model:value="formState.address.province" size="large">
-                                            <a-select-option v-for="item in provinceList" :key="item.code"
-                                                :value="item.code" @click="getDistricts(item.code, item.name)">
-                                                {{ item.name }}
-                                            </a-select-option>
+                                        <a-select ref="select" v-model:value="formState.address.province" size="large"
+                                            :options="options1" :labelInValue="true" @change="handleProvinceChange">
                                         </a-select>
                                     </a-form-item>
                                     <div class="grid grid-cols-2 gap-3">
                                         <a-form-item :name="['address', 'district']" label="District"
                                             :rules="[{ required: true }]">
                                             <a-select v-model:value="formState.address.district" size="large"
-                                                class="w-full" :disabled="districtList.length === 0">
-                                                <a-select-option v-for="item in districtList" :key="item.code"
-                                                    :value="item.code" @click="getWards(item.code, item.name)">
-                                                    {{ item.name }}
-                                                </a-select-option>
+                                                :options="options2" :disabled="!districtList.length"
+                                                :labelInValue="true" @change="handleDistrictChange">
                                             </a-select>
                                         </a-form-item>
                                         <a-form-item :name="['address', 'ward']" label="Ward"
                                             :rules="[{ required: true }]">
-                                            <a-select v-model:value="formState.address.ward" size="large" class="w-full"
-                                                :disabled="wardtList.length === 0">
-                                                <a-select-option v-for="item in wardtList" :key="item.code"
-                                                    :value="item.code" @click="setWards(item.name)">
-                                                    {{ item.name }}
-                                                </a-select-option>
+                                            <a-select v-model:value="formState.address.ward" size="large"
+                                                :options="options3" :disabled="!wardList.length" :labelInValue="true">
                                             </a-select>
                                         </a-form-item>
                                     </div>
@@ -201,6 +101,7 @@
                     </div>
                 </div>
 
+                <!-- Payment Method -->
                 <div class="py-1">
                     <div class="text-start text-4xl py-5">
                         <span class="text-gray-400 select-none">3. </span>Payment
@@ -340,12 +241,13 @@ import StoreAddress from '../components/Checkout/StoreAddress.vue';
 import { ArrowLeftOutlined } from '@ant-design/icons-vue';
 import { onMounted, reactive, ref } from 'vue';
 import addressService from '../services/address.service';
-import { AddressData } from '../hooks/AddressData';
+import { ProvinceData, DistrictData, WardData } from '../hooks/AddressData';
 import httpService from '../services/http.service';
 import { Order_API, User_API } from '../services/api_url';
 import { useCartStore } from '../hooks/CartStore';
 import { CartTableData, useTableData } from '../hooks/Data';
 import { fomratVND } from '../services/common.service';
+import { notification, SelectProps } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
 
 const activeKey = ref('2');
@@ -402,58 +304,68 @@ const paymentOptions: PaymentOption[] = [
     {
         id: 2,
         title: 'Electronic Payment',
-        description: 'PayPal, Yandex.Money, QIWI',
+        description: 'VNPay, PayPal, PayOs',
     },
 ];
 
-const selectedPayment = ref(1);
+const selectedPayment = ref(2);
 
 const selectPayment = (option: number) => {
     selectedPayment.value = option;
 };
 
-const provinceList = ref<AddressData[]>([]);
-const districtList = ref<AddressData[]>([]);
-const wardtList = ref<AddressData[]>([]);
+const provinceList = ref<ProvinceData[]>([]);
+const districtList = ref<DistrictData[]>([]);
+const wardList = ref<WardData[]>([]);
 
-const provinceName = ref('');
-const districtName = ref('');
-const wardName = ref('');
+const options1 = ref<SelectProps['options']>([]);
+const options2 = ref<SelectProps['options']>([]);
+const options3 = ref<SelectProps['options']>([]);
 
 async function getProvince() {
     const res = await addressService.getProvince();
     provinceList.value = res.data;
+    options1.value = provinceList.value.map(province => ({
+        value: province.ProvinceID,
+        label: province.ProvinceName
+    }));
 }
 
-async function getDistricts(code: number, name: string) {
-    resetDistricts();
-    resetWards();
-    provinceName.value = name;
-    const res = await addressService.getDistricts(code);
-    districtList.value = res.data.districts;
+async function getDistricts(provinceCode: number) {
+    const res = await addressService.getDistricts(provinceCode);
+    districtList.value = res.data;
+    options2.value = districtList.value.map(district => ({
+        value: district.DistrictID,
+        label: district.DistrictName
+    }));
 }
 
-async function getWards(code: number, name: string) {
-    resetWards();
-    districtName.value = name;
-    const res = await addressService.getWards(code);
-    wardtList.value = res.data.wards;
+async function getWards(districtCode: number) {
+    const res = await addressService.getWards(districtCode);
+    wardList.value = res.data;
+    options3.value = wardList.value.map(ward => ({
+        value: ward.WardCode,
+        label: ward.WardName
+    }));
 }
 
-function setWards(name: string) {
-    wardName.value = name;
-}
+const handleProvinceChange = (value: Option) => {
+    console.log(`Selected province: ${value}`);
+    formState.address.province = value;
+    getDistricts(parseInt(value.value));
+    formState.address.district = { value: '', label: '' };
+    options2.value = [];
+    formState.address.ward = { value: '', label: '' };
+    options3.value = [];
+};
 
-function resetDistricts() {
-    formState.address.district = '';
-    formState.address.detail = '';
-    districtList.value = [];
-}
-
-function resetWards() {
-    formState.address.ward = '';
-    wardtList.value = [];
-}
+const handleDistrictChange = (value: Option) => {
+    console.log(`Selected district: ${value}`);
+    formState.address.district = value;
+    getWards(parseInt(value.value));
+    formState.address.ward = { value: '', label: '' };
+    options3.value = [];
+};
 
 const validateMessages = {
     required: '${label} is required!',
@@ -462,35 +374,51 @@ const validateMessages = {
     },
 };
 
+interface Option {
+    value: string;
+    label: string;
+}
+
 const formState = reactive({
     user: {
         name: '',
         phoneNumber: '',
-        email: 'huynhnhuthoa881@gmail.com',
+        // email: 'huynhnhuthoa881@gmail.com',
     },
     address: {
-        province: '',
-        district: '',
-        ward: '',
+        province: { value: '', label: '' } as Option,
+        district: { value: '', label: '' } as Option,
+        ward: { value: '', label: '' } as Option,
         detail: '',
     },
 });
-
 
 const router = useRouter();
 
 async function onFinish() {
     try {
-        const address = [formState.address.detail, wardName.value, districtName.value, provinceName.value]
+        const address = [
+            formState.address.detail, formState.address.ward.label,
+            formState.address.district.label, formState.address.province.label
+        ]
         const data = {
             total: total.value,
             receiver: formState.user.name,
+            phoneNumber: formState.user.phoneNumber,
             deliveryAddress: address.join(', '),
+            districtId: formState.address.district.value,
+            wardCode: formState.address.ward.value,
             paymentMethodId: paymentOptions[selectedPayment.value - 1].id,
             cartIds: cartData.value.map(e => e.id)
         }
-        const res = await httpService.postWithAuth(Order_API, data);
-        window.location.href = res;
+        if (selectedPayment.value == 2) {
+            const res = await httpService.postWithAuth(Order_API, data);
+            window.location.replace(res);
+        }
+        else {
+            await httpService.postWithAuth(Order_API, data);
+            router.replace('/order');
+        }
     } catch {
         console.error('Error:');
     }
@@ -499,17 +427,16 @@ async function onFinish() {
 async function getAddressUser() {
     const res = await httpService.getWithAuth(User_API + '/address');
     if (res) {
-        //User
+        // User
         formState.user.name = res.name;
         formState.user.phoneNumber = res.phoneNumber;
-        //Address
-        formState.address.province = res.province_code;
-        getDistricts(res.province_code, res.province_name)
-        formState.address.district = res.district_code;
-        getWards(res.district_code, res.district_name);
-        setWards(res.ward_name);
-        formState.address.ward = res.ward_code;
+        // Address
+        formState.address.province = { value: String(res.province_code), label: res.province_name };
+        formState.address.district = { value: String(res.district_code), label: res.district_name };
+        formState.address.ward = { value: String(res.ward_code), label: res.ward_name };
         formState.address.detail = res.detail;
+        getDistricts(res.province_code);
+        getWards(res.district_code)
     }
 }
 
@@ -518,19 +445,29 @@ async function UpdateAddress() {
         const data = {
             name: formState.user.name,
             phoneNumber: formState.user.phoneNumber,
-            province_code: formState.address.province,
-            province_name: provinceName.value,
-            district_code: formState.address.district,
-            district_name: districtName.value,
-            ward_code: formState.address.ward,
-            ward_name: wardName.value,
+            province_code: formState.address.province.value,
+            province_name: formState.address.province.label,
+
+            district_code: formState.address.district.value,
+            district_name: formState.address.district.label,
+
+            ward_code: formState.address.ward.value,
+            ward_name: formState.address.ward.label,
+
             detail: formState.address.detail
         }
-        const res = await httpService.putWithAuth(User_API + '/address', data);
-        console.log(res);
+        await httpService.putWithAuth(User_API + '/address', data);
+        notification.success({
+            message: 'Update your address successfull',
+            class: 'text-green-500',
+        });
     }
-    catch {
-        console.error('Error:');
+    catch (error) {
+        console.log(error);
+        notification.error({
+            message: 'Fail to update your contact',
+            class: 'text-red-500',
+        });
     }
 };
 

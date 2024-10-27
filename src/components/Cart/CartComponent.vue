@@ -84,4 +84,8 @@ async function delCart(id: string) {
 onMounted(() => {
     getCart();
 });
+
+defineExpose({
+    getCart,
+});
 </script>

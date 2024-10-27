@@ -121,15 +121,22 @@ async function updateCart(id: string, number: number) {
             quantity: number
         }
         const res = await httpService.putWithAuth(Cart_API + `/${id}`, data);
-        // console.log(res);
+        console.log(res);
     } catch (error) {
         console.error("Error deleting cart:", error);
     }
 }
 
 const debouncedUpdateCart = debounce((id: string, quantity: number) => {
-    updateCart(id, quantity);
-}, 1000);
+    updateCart(id, quantity)
+        .then(() => {
+            const selectedItem = selectedItems.value.find(item => item.id === id);
+            if (selectedItem) {
+                selectedItem.quantity = quantity;
+                calculateTotal(selectedItems.value);
+            }
+        });
+}, 700);
 
 
 async function delCart(id: string) {
@@ -146,10 +153,10 @@ const selectedItems = ref<CartTableData[]>([]);
 const rowSelection = ref({
     checkStrictly: false,
     onChange: (selectedRowKeys: (string | number)[]) => {
-        // console.log("Selected Row Keys:");
-        // selectedRowKeys.forEach(key => {
-        //     console.log(key);
-        // });
+        console.log("Selected Row Keys:");
+        selectedRowKeys.forEach(key => {
+            console.log(key);
+        });
     },
     onSelect: (record: CartTableData, selected: boolean, selectedRows: CartTableData[]) => {
         selectedItems.value = selectedRows;

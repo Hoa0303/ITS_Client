@@ -9,7 +9,9 @@ import {
     Row, Image, Table, Card, Radio, InputNumber,
     Upload, Checkbox, Select, Switch,
     Carousel, Slider, Badge, Rate, Divider, Drawer,
-    Breadcrumb, Tabs, Collapse, Result
+    Breadcrumb, Tabs, Collapse, Result, Typography,
+    Statistic, Spin, Popconfirm, Tag, Comment,
+    Tooltip
 } from 'ant-design-vue';
 
 const components = [
@@ -18,7 +20,9 @@ const components = [
     Modal, Image, Table, Card, Upload,
     Checkbox, Select, Radio, InputNumber, Switch,
     Carousel, Slider, Badge, Rate, Divider, Drawer,
-    Breadcrumb, Tabs, Collapse, Result
+    Breadcrumb, Tabs, Collapse, Result, Typography, 
+    Statistic, Spin, Popconfirm, Tag, Comment,
+    Tooltip
 ];
 const pinia = createPinia()
 
