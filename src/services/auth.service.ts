@@ -31,8 +31,22 @@ const getAuthCookie = () => {
 
 export const getAuthName = () => {
   const token = getAuthCookie()
-  if(token && token.name){
+  if (token && token.name) {
     return token.name
+  }
+}
+
+export const getAuthToken = () => {
+  const token = getAuthCookie()
+  if (token && token.jwt) {
+    return token.jwt
+  }
+}
+
+export const getAuthPhone = () => {
+  const token = getAuthCookie()
+  if (token && token.phoneNumber) {
+    return token.phoneNumber
   }
 }
 

@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="flex flex-col items-center">
-            <img class="w-24 h-24 rounded-full object-cover cursor-pointer"
-                src="https://partyanimals.com/media/avatars/avatars-5.png" alt="Profile" @click="showModal = true" />
+            <img class="w-24 h-24 rounded-full object-cover cursor-pointer" :src="image" alt="Profile"
+                @click="showModal = true" />
             <h2 class="mt-4 text-lg font-semibold text-gray-900">{{ getAuthName() }}</h2>
             <p class="text-sm text-gray-500"></p>
         </div>
@@ -21,8 +21,8 @@
             </div>
         </div>
 
-        <a-modal v-model:open="showModal" title="Cập nhật ảnh đại diện" @ok="handleOk" @cancel="handleCancel"
-            class="custom-modal" ok-text="Cập nhật" cancel-text="Hủy" centered width="400px">
+        <a-modal v-model:open="showModal" title="Chance" @ok="handleOk" @cancel="handleCancel" class="custom-modal"
+            ok-text="Update" cancel-text="Cancel" centered width="400px">
             <div class="upload-container">
                 <a-upload v-model:file-list="fileList" name="avatar" list-type="picture-card"
                     :before-upload="beforeUpload" :max-count="1" :show-upload-list="false" class="upload-avatar">
@@ -41,23 +41,55 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { getAuthName } from '../../services/auth.service';
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
 import type { UploadFile } from 'ant-design-vue';
+import httpService from '../../services/http.service';
+import { User_API } from '../../services/api_url';
+import { toImageLink } from '../../services/common.service';
 
+const image = ref('');
 const showModal = ref(false);
 const fileList = ref<UploadFile[]>([]);
 const loading = ref<boolean>(false);
 const imageUrl = ref<string>('');
 let uploadedFile: UploadFile | null = null;
 
-const handleOk = () => {
-    if (uploadedFile) {
-        console.log('Selected image:', uploadedFile);
+async function getImage() {
+    try {
+        const res = await httpService.getWithAuth(User_API + "/avatar");
+        if (res.imageUrl) {
+            image.value = toImageLink(res.imageUrl);
+        } else {
+            image.value = 'https://partyanimals.com/media/avatars/thumbnails/avatars-4.webp'
+        }
     }
-    showModal.value = false;
+    catch (error) {
+        console.log(error);
+    }
+}
+
+const handleOk = async () => {
+    if (!uploadedFile) return;
+
+    const formData = new FormData();
+    formData.append('files', uploadedFile as any);
+
+    loading.value = true;
+    try {
+        await message.loading('Image updateing!', 1)
+        await httpService.putWithAuth(User_API + "/avatar", formData)
+        message.success('Image updated successfully!', 1);
+        handleCancel();
+        getImage();
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        message.error('Failed to update image.');
+    } finally {
+        loading.value = false;
+    }
 };
 
 const handleCancel = () => {
@@ -76,6 +108,10 @@ const beforeUpload = (file: UploadFile) => {
     reader.readAsDataURL(file as any);
     return false;
 };
+
+onMounted(() => {
+    getImage();
+})
 </script>
 
 

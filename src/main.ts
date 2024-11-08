@@ -13,6 +13,7 @@ import {
     Statistic, Spin, Popconfirm, Tag, Comment,
     Tooltip
 } from 'ant-design-vue';
+import { BackTop } from 'ant-design-vue';
 
 const components = [
     Button, Input, Form, Avatar, Col,
@@ -36,6 +37,8 @@ const app = createApp(App);
 
 app.component('default-layout', DefaultLayout);
 app.component('empty-layout', EmptyLayout);
+app.component(BackTop.name ?? 'BackTop', BackTop);
+
 components.forEach(component => app.use(component));
 
 app.use(router)

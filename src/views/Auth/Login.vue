@@ -19,7 +19,7 @@
 
 <script>
 import LoginForm from '../../components/Auth/LoginForm.vue';
-import authService from "../../services/auth.service";
+import authService, { getAuthName } from "../../services/auth.service";
 import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
 
@@ -47,7 +47,8 @@ export default {
             message
                 .loading('Action in progress..', 1.5)
                 .then(() => message.success('Login successful', 1))
-                .then(() => router.push({ name: 'Home' }));
+                // .then(() => router.push({ name: 'Home' }));
+                .then(() => window.location.replace('/'));
         };
 
         const fail = () => {

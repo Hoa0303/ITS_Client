@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { HeartOutlined, HeartFilled } from '@ant-design/icons-vue';
 import { useTableData } from "../../hooks/productData";
 import productService from '../../services/product.service';
@@ -70,7 +70,7 @@ const props = defineProps({
 const route = useRoute();
 const pageSize = ref(8);
 const totalItems = ref();
-const searchKey = route.query.search;
+const searchKey = computed(() => route.query.search || '');
 const favoriteProducts = ref<number[]>([]);
 
 function addPageSize() {
@@ -102,10 +102,10 @@ async function filterProduct() {
     if (pageSize) {
         params.append('pageSize', pageSize.value.toString());
     }
-    if (searchKey) {
-        params.append('search', searchKey.toString());
+    const searchValue = typeof searchKey.value === 'string' ? searchKey.value : JSON.stringify(searchKey.value);
+    if (searchValue) {
+        params.append('search', searchValue);
     }
-
     try {
         const res = await productService.filterProduct(params);
         totalItems.value = res.data.totalItems
@@ -124,6 +124,7 @@ async function filterProduct() {
             price: item.price,
         }));
         setProduct(formattedData);
+        // console.log(searchKey.value);
         // console.log(products.value);        
     } catch (error) {
         console.error("Error filtering products: ", error);
@@ -165,7 +166,7 @@ onMounted(() => {
 const debouncedFilterProduct = debounce(filterProduct, 550);
 
 watch(
-    () => [props.minprices, props.maxprices, props.selectedCategories, props.selectedBrands, props.selectedRams, props.sortData, pageSize.value, searchKey],
+    () => [props.minprices, props.maxprices, props.selectedCategories, props.selectedBrands, props.selectedRams, props.sortData, pageSize.value, searchKey.value],
     () => {
         debouncedFilterProduct();
     }

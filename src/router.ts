@@ -78,7 +78,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/order',
     name: 'Order',
-    component: test,
+    component: Order,
   },
   {
     path: '/order/:id',

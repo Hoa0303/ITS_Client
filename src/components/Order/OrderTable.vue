@@ -46,7 +46,7 @@
                 @confirm="receivedOrder(item.id)">
                 <a-button v-if="OrderSatus[item.orderStatus] == 'Shipping'" size="large"
                     class="border-orange-500 text-orange-500">
-                    Order received
+                    Received
                 </a-button>
             </a-popconfirm>
 

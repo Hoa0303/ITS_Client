@@ -3,3 +3,7 @@ declare module '*.vue' {
   // const Component: ReturnType<typeof defineComponent>;
   // export default Component;
 }
+
+interface Window {
+  kommunicate: any
+}

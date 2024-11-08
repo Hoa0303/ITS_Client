@@ -25,7 +25,7 @@
                                 <router-link to="/info">Personal</router-link>
                             </a-menu-item>
                             <a-menu-item>
-                                <a href="javascript:;">Log out</a>
+                                <a @click="logOut()">Log out</a>
                             </a-menu-item>
                         </a-menu>
                     </template>
@@ -84,13 +84,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch, createVNode } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { ShoppingCartOutlined, SearchOutlined, UserOutlined, GlobalOutlined, CloseOutlined } from '@ant-design/icons-vue';
+import { ShoppingCartOutlined, SearchOutlined, UserOutlined, GlobalOutlined, CloseOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import authService from '../services/auth.service';
-import { MenuProps } from 'ant-design-vue';
+import { MenuProps, Modal } from 'ant-design-vue';
 import CartComponent from './Cart/CartComponent.vue';
 import { useCartStore } from '../hooks/CartStore';
+import Cookies from 'js-cookie'
 
 const isSearchVisible = ref(false);
 const toggleSearch = () => {
@@ -128,6 +129,28 @@ const route = useRoute();
 
 const current = ref<string[]>([]);
 const cookieExists = ref(false);
+
+const logOut = () => {
+    Modal.confirm({
+        title: 'Confirm Logout',
+        icon: createVNode(ExclamationCircleOutlined),
+        content: 'Are you sure you want to log out? All session data will be cleared.',
+        onOk() {
+            return new Promise<void>((resolve, reject) => {
+                Cookies.remove('client_data');
+                window.kommunicate.logout();
+                setTimeout(() => {
+                    resolve();
+                    // router.replace("/login");
+                    window.location.replace("/login")
+                }, 1000);
+            }).catch(() => console.log('An error occurred!'));
+        },
+        onCancel() {
+            console.log('Logout action was canceled.');
+        },
+    });
+};
 
 const items = ref<MenuProps['items']>([
     {

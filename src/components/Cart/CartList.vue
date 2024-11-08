@@ -176,6 +176,10 @@ const cartStore = useCartStore();
 const router = useRouter();
 
 function goToCheckout() {
+    if (selectedItems.value.length === 0) {
+        alert("Bạn phải chọn ít nhất 1 sản phẩm để tiếp tục.");
+        return;
+    }
     cartStore.setSelectedItems(selectedItems.value);
     router.push('/checkout');
 }

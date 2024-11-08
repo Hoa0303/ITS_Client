@@ -299,12 +299,12 @@ const paymentOptions: PaymentOption[] = [
     {
         id: 1,
         title: 'Cash on Delivery',
-        description: 'Cash, credit card',
+        description: 'Cash',
     },
     {
         id: 2,
         title: 'Electronic Payment',
-        description: 'VNPay, PayPal, PayOs',
+        description: 'VNPay',
     },
 ];
 
@@ -472,6 +472,10 @@ async function UpdateAddress() {
 };
 
 onMounted(() => {
+    if (selectedItems.value.length === 0) {
+        router.replace('/cart');
+        return;
+    }
     getProvince();
     getAddressUser();
     fetchCartData();
