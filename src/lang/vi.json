@@ -1,0 +1,137 @@
+{
+  "home": "Trang chủ",
+  "product": "Sản phẩm",
+  "about": "Giới thiệu",
+  "contact": "Liên hệ",
+  "orders": "Đơn hàng",
+  "favorites": "Yêu thích",
+  "personal": "Cá nhân",
+  "logout": "Đăng xuất",
+  "Cart": "Giỏ hàng",
+  "shop-all": "Xem tất cả sản phẩm",
+
+  "Trending Products": "Sản phẩm bán chạy",
+  "Popular Brands": "Thương hiệu phổ biến",
+  "Why Choose Us": "Tại sao chọn chúng tôi",
+
+  "Are you confused,which product is suitable for you ?": "Bạn đang phân vân, sản phẩm nào phù hợp với bạn?",
+  "Need consultation?": "Cần tư vấn?",
+  "Contact us": "Liên hệ chúng tôi",
+
+  "products": {
+    "Price": "Giá",
+    "Categories": "Danh mục",
+    "Brands": "Thương hiệu",
+    "Default": "Mặc định",
+    "LowtoHigh": "Giá Thấp - Cao",
+    "HightoLow": "Giá Cao - Thấp",
+    "NotFound": "Không có sản phẩm phù hợp với tiêu chí bạn tìm!",
+    "Version": "Phiên bản",
+    "Colors": "Màu sắc",
+    "Shop now": "Mua ngay",
+    "Add to cart": "Thêm vào giỏ hàng",
+    "View more": "Xem thêm",
+    "Review": "Đánh giá & Nhận xét về",
+    "Specifications": "Thông số kỹ thuật",
+    "Screen size": "Kích thước màn hình",
+    "Display technology": "Công nghệ hiển thị",
+    "Scanning frequency": "Tần số quét",
+    "Rear camera": "Camera sau",
+    "Front camera": "Camera trước",
+    "Battery": "Pin",
+    "Size": "Kích thước",
+    "Weight": "Cân nặng"
+  },
+
+  "cart": {
+    "My cart": "Giỏ hàng của tôi",
+    "Subtotal": "Tổng cộng",
+    "VIEW CART": "XEM GIỎ HÀNG",
+    "CHECKOUT": "THANH TOÁN",
+
+    "Product": "Sản phẩm",
+    "Price": "Giá",
+    "Quantity": "Số lượng",
+    "Sum": "Tổng",
+    "Action": "Hành động",
+    "Total": "Tổng",
+    "Discount": "Giảm giá"
+  },
+
+  "order": {
+    "All": "Tất cả",
+    "from": "từ",
+    "status": "Trạng thái",
+    "paymentMethod": "Phương thức thanh toán",
+    "total": "Tổng cộng",
+    "amountPaid": "Số tiền đã thanh toán",
+    "viewDetail": "Xem chi tiết",
+    "confirmDeleteTitle": "Bạn có chắc chắn muốn xóa đơn hàng này?",
+    "yes": "Có",
+    "no": "Không",
+    "cancelOrder": "Hủy đơn hàng",
+    "confirmReceiptTitle": "Xác nhận nhận hàng",
+    "received": "Đã nhận",
+    "review": "Đánh giá",
+    "repayment": "Trả lại tiền",
+    "countdown": "Đếm ngược",
+    "loading": "Đang tải...",
+    "orderDetail": "Chi tiết đơn hàng",
+    "reviewOrder": "Đánh giá đơn hàng #",
+    "Processing": "Đang xử lý",
+    "Confirmed": "Đã xác nhận",
+    "Shipping": "Đang giao hàng",
+    "Received": "Đã nhận",
+    "Done": "Hoàn thành",
+    "Canceled": "Đã hủy"
+  },
+
+  "favorite": {
+    "Favorite Products": "Sản phẩm yêu thích",
+    "Add to cart": "Thêm vào giỏ hàng"
+  },
+
+  "person": {
+    "Contact": "Liên hệ",
+    "Full name": "Họ và tên",
+    "Phone Number": "Số điện thoại",
+
+    "Address": "Địa chỉ",
+    "Receiver": "Người nhận",
+    "Province": "Tỉnh",
+    "District": "Quận",
+    "Ward": "Phường",
+    "Detail": "Chi tiết"
+  },
+
+  "checkout": {
+    "returnToCart": "Quay lại giỏ hàng",
+    "checkout": "Thanh toán",
+    "contactInformation": "Thông tin liên hệ",
+    "name": "Họ tên",
+    "phone": "Số điện thoại",
+    "phoneRequired": "Số điện thoại là bắt buộc!",
+    "phoneInvalid": "Số điện thoại không hợp lệ!",
+    "shipping": "Giao hàng",
+    "province": "Tỉnh",
+    "district": "Quận",
+    "ward": "Phường",
+    "detail": "Chi tiết",
+    "payment": "Thanh toán",
+    "Cash": "Thanh toán khi nhận hàng",
+    "Electronic": "Thanh toán điện tử",
+    "paymentOptions": "Lựa chọn thanh toán",
+    "shippingCost": "Phí vận chuyển",
+    "paymentMethod": "Phương thức thanh toán",
+    "subtotal": "Tổng cộng",
+    "discount": "Giảm giá",
+    "total": "Tổng",
+    "confirmCheckout": "Xác nhận thanh toán",
+    "itemsInOrder": "Sản phẩm",
+    "quantity": "Số lượng",
+    "price": "Giá",
+    "totalPrice": "Tổng giá"
+  },
+
+  "update": "Cập nhật"
+}

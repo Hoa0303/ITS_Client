@@ -84,7 +84,9 @@ async function submitReviews() {
         const formData = new FormData();
 
         reviewForms.forEach((review, index) => {
-            formData.append(`reviews[${index}].productId`, review.productId);
+            if(review.productId){
+                formData.append(`reviews[${index}].productId`, review.productId);
+            }
             formData.append(`reviews[${index}].description`, review.description);
             formData.append(`reviews[${index}].start`, review.start);
         });

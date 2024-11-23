@@ -5,7 +5,7 @@
                 <router-link to="/cart">
                     <div class="flex items-center">
                         <arrow-left-outlined class="text-xs me-1" />
-                        <span>Return to cart</span>
+                        <span>{{ $t('checkout.returnToCart') }}</span>
                     </div>
                 </router-link>
             </a-breadcrumb-item>
@@ -14,7 +14,7 @@
         <a-divider class="mt-1 bg-gray-100" style="height: 2px;" />
 
         <div class="text-center text-5xl">
-            Checkout
+            {{ $t('checkout.checkout') }}
         </div>
 
         <a-form :model="formState" layout="vertical" name="nest-messages" :validate-messages="validateMessages"
@@ -24,76 +24,64 @@
                 <!-- Information -->
                 <div class="py-1">
                     <div class="text-start text-4xl py-5">
-                        <span class="text-gray-400 select-none">1. </span>Contact Information
+                        <span class="text-gray-400 select-none">1. </span>{{$t('checkout.contactInformation')}}
                     </div>
                     <div class="">
                         <div class="grid grid-cols-2 gap-3">
-                            <a-form-item :name="['user', 'name']" label="Name" :rules="[{ required: true }]">
+                            <a-form-item :name="['user', 'name']" :label="$t('checkout.name')" :rules="[{ required: true }]">
                                 <a-input v-model:value="formState.user.name" size="large" />
                             </a-form-item>
-                            <a-form-item :name="['user', 'phoneNumber']" label="Phone" :rules="[
+                            <a-form-item :name="['user', 'phoneNumber']" :label="$t('checkout.phone')" :rules="[
                                 { required: true, message: 'Phone number is required!' },
                                 { pattern: /^[0-9]{10}$/, message: 'Phone number is not valid!' }
                             ]">
                                 <a-input v-model:value="formState.user.phoneNumber" size="large" />
                             </a-form-item>
                         </div>
-                        <!-- <div class="grid grid-cols-2 gap-3">
-                            <a-form-item :name="['user', 'phoneNumber']" label="Phone" :rules="[
-                                { required: true, message: 'Phone number is required!' },
-                                { pattern: /^[0-9]{10}$/, message: 'Phone number is not valid!' }
-                            ]">
-                                <a-input v-model:value="formState.user.phoneNumber" size="large" />
-                            </a-form-item>
-                            <a-form-item :name="['user', 'email']" label="Email"
-                                :rules="[{ required: true }, { type: 'email' }]">
-                                <a-input v-model:value="formState.user.email" size="large" disabled />
-                            </a-form-item>
-                        </div> -->
                     </div>
                 </div>
 
                 <!-- Address -->
                 <div class="py-1">
                     <div class="text-start text-4xl py-5">
-                        <span class="text-gray-400 select-none">2. </span>Shipping
+                        <span class="text-gray-400 select-none">2. </span>{{$t('checkout.shipping')}}
                     </div>
                     <div class="rounded-lg border p-4">
                         <a-tabs v-model:activeKey="activeKey">
 
-                            <a-tab-pane key="1" tab="Pick up from store">
+                            <!-- <a-tab-pane key="1" tab="Pick up from store">
                                 <StoreAddress />
-                            </a-tab-pane>
+                            </a-tab-pane> -->
 
                             <a-tab-pane key="2" tab="Delivery" force-render>
                                 <div class="">
-                                    <a-form-item :name="['address', 'province']" label="Province"
+                                    <a-form-item :name="['address', 'province']" :label="$t('checkout.province')"
                                         :rules="[{ required: true }]">
                                         <a-select ref="select" v-model:value="formState.address.province" size="large"
                                             :options="options1" :labelInValue="true" @change="handleProvinceChange">
                                         </a-select>
                                     </a-form-item>
                                     <div class="grid grid-cols-2 gap-3">
-                                        <a-form-item :name="['address', 'district']" label="District"
+                                        <a-form-item :name="['address', 'district']" :label="$t('checkout.district')"
                                             :rules="[{ required: true }]">
                                             <a-select v-model:value="formState.address.district" size="large"
                                                 :options="options2" :disabled="!districtList.length"
                                                 :labelInValue="true" @change="handleDistrictChange">
                                             </a-select>
                                         </a-form-item>
-                                        <a-form-item :name="['address', 'ward']" label="Ward"
+                                        <a-form-item :name="['address', 'ward']" :label="$t('checkout.ward')"
                                             :rules="[{ required: true }]">
                                             <a-select v-model:value="formState.address.ward" size="large"
                                                 :options="options3" :disabled="!wardList.length" :labelInValue="true">
                                             </a-select>
                                         </a-form-item>
                                     </div>
-                                    <a-form-item :name="['address', 'detail']" label="Detail"
+                                    <a-form-item :name="['address', 'detail']" :label="$t('checkout.detail')"
                                         :rules="[{ required: true }]">
                                         <a-textarea v-model:value="formState.address.detail" />
                                     </a-form-item>
                                     <a-form-item>
-                                        <a-button type="primary" @click="UpdateAddress">Submit</a-button>
+                                        <a-button type="primary" @click="UpdateAddress">{{$t('update')}}</a-button>
                                     </a-form-item>
                                 </div>
                             </a-tab-pane>
@@ -104,7 +92,7 @@
                 <!-- Payment Method -->
                 <div class="py-1">
                     <div class="text-start text-4xl py-5">
-                        <span class="text-gray-400 select-none">3. </span>Payment
+                        <span class="text-gray-400 select-none">3. </span>{{$t('checkout.payment')}}
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div v-for="(option) in paymentOptions" :key="option.id" @click="selectPayment(option.id)"
@@ -127,7 +115,7 @@
             <!-- Items in order -->
             <div class="rounded-lg border px-4 h-fit sticky top-32">
                 <div class="text-start text-xl pt-4">
-                    Items in order
+                    {{$t('checkout.itemsInOrder')}}
                 </div>
 
                 <!-- Detail on cart  -->
@@ -153,7 +141,7 @@
 
                 <!-- Option payment -->
                 <div class="">
-                    <div class="grid grid-cols-3">
+                    <!-- <div class="grid grid-cols-3">
                         <div class="">
                             <div class="text-lg text-gray-500">
                                 Shipping
@@ -161,15 +149,15 @@
                         </div>
                         <div class="text-end col-span-2">
                             <div class="text-lg text-gray-500">
-                                Pick up from store
+                                {{ currentTabContent }}
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="grid grid-cols-3">
                         <div class="">
                             <div class="text-lg text-gray-500">
-                                Payment
+                                {{ $t('checkout.paymentMethod') }}
                             </div>
                         </div>
                         <div class="text-end col-span-2">
@@ -186,7 +174,7 @@
                     <div class="grid grid-cols-3">
                         <div class="">
                             <div class="text-lg text-gray-500">
-                                Subtotal
+                                {{ $t('checkout.subtotal') }}
                             </div>
                         </div>
                         <div class="text-end col-span-2">
@@ -199,7 +187,7 @@
                     <div class="grid grid-cols-2">
                         <div class="">
                             <div class="text-lg text-gray-500">
-                                Discount
+                                {{ $t('checkout.discount') }}
                             </div>
                         </div>
                         <div class="text-end">
@@ -216,7 +204,7 @@
                     <div class="grid grid-cols-3">
                         <div class="">
                             <div class="text-lg text-gray-500">
-                                Total
+                                {{ $t('checkout.total') }}
                             </div>
                         </div>
                         <div class="text-end col-span-2">
@@ -226,7 +214,7 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <a-button class="w-full" size="large" type="primary" html-type="submit">Submit</a-button>
+                        <a-button class="w-full" size="large" type="primary" html-type="submit"> {{ $t('checkout.checkout') }}</a-button>
                     </div>
                 </div>
             </div>
@@ -237,9 +225,9 @@
 
 
 <script lang="ts" setup>
-import StoreAddress from '../components/Checkout/StoreAddress.vue';
+// import StoreAddress from '../components/Checkout/StoreAddress.vue';
 import { ArrowLeftOutlined } from '@ant-design/icons-vue';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import addressService from '../services/address.service';
 import { ProvinceData, DistrictData, WardData } from '../hooks/AddressData';
 import httpService from '../services/http.service';
@@ -249,8 +237,12 @@ import { CartTableData, useTableData } from '../hooks/Data';
 import { fomratVND } from '../services/common.service';
 import { notification, SelectProps } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 const activeKey = ref('2');
+const currentTabContent = computed(() => {
+    return activeKey.value === "1" ? "Pick up from store" : "Delivery";
+});
 
 const cartStore = useCartStore();
 const selectedItems = ref<CartTableData[]>([]);
@@ -295,18 +287,19 @@ interface PaymentOption {
     description: string;
 }
 
-const paymentOptions: PaymentOption[] = [
+const {t} = useI18n();
+const paymentOptions = computed<PaymentOption[]>(() => [
     {
         id: 1,
-        title: 'Cash on Delivery',
+        title: t('checkout.Cash'),
         description: 'Cash',
     },
     {
         id: 2,
-        title: 'Electronic Payment',
+        title:  t('checkout.Electronic'),
         description: 'VNPay',
     },
-];
+]);
 
 const selectedPayment = ref(2);
 
@@ -408,7 +401,8 @@ async function onFinish() {
             deliveryAddress: address.join(', '),
             districtId: formState.address.district.value,
             wardCode: formState.address.ward.value,
-            paymentMethodId: paymentOptions[selectedPayment.value - 1].id,
+            paymentMethodId: paymentOptions.value[selectedPayment.value - 1].id,
+            shippingMethod: activeKey.value,
             cartIds: cartData.value.map(e => e.id)
         }
         if (selectedPayment.value == 2) {

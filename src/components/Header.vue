@@ -4,52 +4,59 @@
             <router-link to="/">
                 <img src="/ITS.png" class="w-24" />
             </router-link>
-            <a-menu class="text-lg" v-model:selectedKeys="current" mode="horizontal" :items="items" />
-            <div>
+            <a-menu class="text-lg flex-1 justify-center" :inlineCollapsed="false" v-model:selectedKeys="current"
+                mode="horizontal" :items="items" />
+
+            <div class="">
+                <!-- Search -->
                 <SearchOutlined class="text-xl p-1" @click="toggleSearch" />
 
+                <!-- Presonal -->
                 <router-link v-if="!cookieExists" to="/login">
                     <UserOutlined class="text-xl p-1" />
                 </router-link>
+
                 <a-dropdown v-else>
                     <UserOutlined class="text-xl p-1" />
                     <template #overlay>
                         <a-menu>
                             <a-menu-item>
-                                <router-link to="/order">Orders</router-link>
+                                <router-link to="/order">{{ t('orders') }}</router-link>
                             </a-menu-item>
                             <a-menu-item>
-                                <router-link to="/favorite">Favorites</router-link>
+                                <router-link to="/favorite">{{ t('favorites') }}</router-link>
                             </a-menu-item>
                             <a-menu-item>
-                                <router-link to="/info">Personal</router-link>
+                                <router-link to="/info">{{ t('personal') }}</router-link>
                             </a-menu-item>
                             <a-menu-item>
-                                <a @click="logOut()">Log out</a>
+                                <a @click="logOut()">{{ t('logout') }}</a>
                             </a-menu-item>
                         </a-menu>
                     </template>
                 </a-dropdown>
 
-                <!-- <a-dropdown trigger="['click']">
+                <!-- Trans -->
+                <a-dropdown trigger="['click']">
                     <GlobalOutlined class="text-xl p-1" />
                     <template #overlay>
                         <a-menu>
-                            <a-menu-item>
-                                <a href="javascript:;">1st menu item</a>
+                            <a-menu-item @click="changeLanguage('en')">
+                                <a>English</a>
                             </a-menu-item>
-                            <a-menu-item>
-                                <a href="javascript:;">2nd menu item</a>
+                            <a-menu-item @click="changeLanguage('vi')">
+                                <a>Tiếng Việt</a>
                             </a-menu-item>
                         </a-menu>
                     </template>
-                </a-dropdown> -->
+                </a-dropdown>
 
+                <!-- Cart -->
                 <router-link v-if="!cookieExists" to="/login">
                     <ShoppingCartOutlined class="text-2xl p-1" />
                 </router-link>
                 <ShoppingCartOutlined v-else class="text-2xl p-1" @click="!isCartPage ? showDrawer() : null" />
-                <a-drawer title="My cart" :footer-style="{ textAlign: 'right' }" :closable="false" :open="open"
+                <a-drawer :title="$t('cart.My cart')" :footer-style="{ textAlign: 'right' }" :closable="false" :open="open"
                     @close="onClose">
 
                     <CartComponent ref="cartComponentRef" @updateCart="handleCartUpdate" />
@@ -57,13 +64,13 @@
                     <template #footer>
                         <a-button style="margin-right: 8px" size="large">
                             <router-link to="/cart" @click="onClose">
-                                VIEW CART
+                                {{ $t('cart.VIEW CART') }}
                             </router-link>
                         </a-button>
 
                         <a-button type="primary" @click="checkout" size="large">
                             <router-link to="/checkout">
-                                CHECKOUT
+                                {{ $t('cart.CHECKOUT') }}
                             </router-link>
                         </a-button>
                     </template>
@@ -92,6 +99,7 @@ import { MenuProps, Modal } from 'ant-design-vue';
 import CartComponent from './Cart/CartComponent.vue';
 import { useCartStore } from '../hooks/CartStore';
 import Cookies from 'js-cookie'
+import { useI18n } from 'vue-i18n';
 
 const isSearchVisible = ref(false);
 const toggleSearch = () => {
@@ -123,6 +131,11 @@ const onClose = () => {
     open.value = false;
 };
 
+const { locale } = useI18n();
+function changeLanguage(lang: string) {
+    locale.value = lang;
+}
+
 
 const router = useRouter();
 const route = useRoute();
@@ -141,7 +154,6 @@ const logOut = () => {
                 window.kommunicate.logout();
                 setTimeout(() => {
                     resolve();
-                    // router.replace("/login");
                     window.location.replace("/login")
                 }, 1000);
             }).catch(() => console.log('An error occurred!'));
@@ -152,28 +164,29 @@ const logOut = () => {
     });
 };
 
-const items = ref<MenuProps['items']>([
+const { t } = useI18n();
+const items = computed<MenuProps['items']>(() => [
     {
         key: 'home',
-        label: 'Home',
+        label: t('home'),
         title: 'Home',
         onClick: () => navigateTo('/')
     },
     {
         key: 'product',
-        label: 'Product',
+        label: t('product'),
         title: 'Product',
         onClick: () => navigateTo('/product')
     },
     {
         key: 'about',
-        label: 'About',
+        label: t('about'),
         title: 'About',
         onClick: () => navigateTo('/about')
     },
     {
         key: 'contact',
-        label: 'Contact',
+        label: t('contact'),
         title: 'Contact',
         onClick: () => navigateTo('/contact')
     }

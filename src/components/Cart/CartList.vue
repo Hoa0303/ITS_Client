@@ -39,16 +39,16 @@
         <div class="rounded-lg border p-4 h-fit">
             <div class="border-b pb-4">
                 <div class="flex justify-between">
-                    <span>Subtotal</span>
+                    <span>{{ t('cart.Subtotal') }}</span>
                     <span>{{ fomratVND(originPrice) }}</span>
                 </div>
                 <div class="flex justify-between text-red-500">
-                    <span>Discount</span>
+                    <span>{{ t('cart.Discount') }}</span>
                     <span>- {{ fomratVND(discount) }}</span>
                 </div>
             </div>
             <div class="flex justify-between mt-4 font-bold text-lg">
-                <span>Total</span>
+                <span>{{ t('cart.Total') }}</span>
                 <span>{{ fomratVND(total) }}</span>
             </div>
             <button class="bg-blue-500 text-white w-full mt-4 p-2 rounded" @click="goToCheckout">Checkout</button>
@@ -65,6 +65,7 @@ import { fomratVND, toImageLink } from "../../services/common.service";
 import { debounce } from 'lodash';
 import { useCartStore } from '../../hooks/CartStore';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 const { cartData, setCartData } = useTableData();
 const originPrice = ref(0);
@@ -91,14 +92,14 @@ function calculateTotal(items: CartTableData[]) {
         return acc + itemTotal;
     }, 0);
 }
-
+const { t } = useI18n();
 const columns = [
     { title: '', dataIndex: 'imageUrl', key: 'imageUrl' },
-    { title: 'Product', dataIndex: 'name', key: 'name' },
-    { title: 'Price', dataIndex: 'price', key: 'price' },
-    { title: 'Quantity', dataIndex: 'quantity', key: 'quantity' },
-    { title: 'Sum', dataIndex: 'sum', key: 'sum' },
-    { title: 'Action', key: 'action' }
+    { title: t('cart.Product'), dataIndex: 'name', key: 'name' },
+    { title: t('cart.Price'), dataIndex: 'price', key: 'price' },
+    { title: t('cart.Quantity'), dataIndex: 'quantity', key: 'quantity' },
+    { title: t('cart.Sum'), dataIndex: 'sum', key: 'sum' },
+    { title: t('cart.Action'), key: 'action' }
 ];
 
 function getCart() {

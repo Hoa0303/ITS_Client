@@ -1,8 +1,8 @@
 <template>
     <div class="py-10 sm:px-6 md:px-8 lg:px-28">
         <a-breadcrumb class="">
-            <a-breadcrumb-item><router-link to="/">Home</router-link></a-breadcrumb-item>
-            <a-breadcrumb-item><router-link to="/product">Product</router-link></a-breadcrumb-item>
+            <a-breadcrumb-item><router-link to="/">{{ $t('home') }}</router-link></a-breadcrumb-item>
+            <a-breadcrumb-item><router-link to="/product">{{ $t('product') }}</router-link></a-breadcrumb-item>
             <a-breadcrumb-item>{{ productName }}</a-breadcrumb-item>
         </a-breadcrumb>
         <a-divider class="mt-1 bg-gray-100" style="height: 2px;" />
@@ -13,21 +13,22 @@
                 <a-carousel autoplay dots-class="slick-dots slick-thumb" class="rounded-lg">
                     <template #customPaging="props">
                         <img :src="toImageLink(productsData[0]?.imageUrls[props.i])"
-                            class="cursor-pointer h-12 w-12 object-cover rounded-lg border border-gray-300" />
+                            class="mt-5 cursor-pointer h-14 w-14 object-contain transition-transform transform hover:scale-105 hover:shadow-lg" />
                     </template>
 
                     <div v-for="(url, index) in productsData[0]?.imageUrls" :key="index" class="relative">
-                        <img class="w-full h-96 object-contain" :src="toImageLink(url)" />
+                        <img class="w-full h-96 object-contain" :src="toImageLink(url)" alt="Product Image" />
                     </div>
                 </a-carousel>
             </div>
+
 
             <div class="md:col-span-2">
                 <!-- Name -->
                 <p class="text-lg"> {{ productsData[0]?.name }}</p>
 
                 <!-- Version -->
-                <p v-if="productsVersion.length > 1" class="pt-4">Version</p>
+                <p v-if="productsVersion.length > 1" class="pt-4">{{ $t('products.Version') }}</p>
                 <div v-if="productsVersion.length > 1" class="grid grid-cols-3 gap-3">
                     <router-link :to="`/product/${item.id}`" v-for="(item) in productsVersion" :key="item.id"
                         class="flex-col flex justify-center items-center gap-1 py-2 border-solid border border-gray-300 rounded-lg"
@@ -44,7 +45,7 @@
                 </div>
 
                 <!-- Colors -->
-                <p class="pt-4">Colors</p>
+                <p class="pt-4">{{ $t('products.Colors') }}</p>
                 <div class="grid grid-cols-3 gap-3">
                     <div v-for="(item, index) in productsData[0]?.color" :key="index"
                         @click="item.quantity > 0 ? selectColor(index) : null">
@@ -68,17 +69,13 @@
                 </div>
 
                 <!-- Button -->
-                <div class="grid grid-cols-6 gap-3">
-                    <div
-                        class="col-span-5 bg-red-500 text-white flex-col flex justify-center items-center rounded-lg cursor-pointer py-1">
-                        <p class="m-1">Shop now</p>
-                    </div>
-                    <div class="flex-col flex justify-center items-center border-solid border-2 border-red-500 rounded-lg cursor-pointer py-1 min-w-[100px]"
+                <div class="grid xl:grid-cols-2 gap-3">
+                    <div class="flex justify-center items-center border-2 border-red-400 cursor-pointer py-1 min-w-[100px]"
                         @click="addToCart">
-                        <p class="m-1 text-red-500">
+                        <p class="m-1 text-red-500 text-md">
                             <ShoppingCartOutlined />
                         </p>
-                        <p class="m-1 text-red-500 text-xs">Add to cart</p>
+                        <p class="m-1 text-red-500 text-lg">{{ $t('products.Add to cart') }}</p>
                     </div>
                 </div>
             </div>
@@ -86,7 +83,7 @@
 
         <a-divider class="bg-gray-100 border-gray-100" style="height: 2px;" />
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-7 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-7 gap-3">
             <!-- Rate & Comment -->
             <ProductReview :productId="parseInt(props.id)" :rating="rating" :ratingCount="ratingCount"
                 :productName="productName" />
@@ -94,7 +91,7 @@
             <!-- Specifications -->
             <div
                 class="lg:col-span-2 md:col-span-3 border-solid border-2 p-4 border-gray-50 rounded-md shadow-lg flex flex-col h-full">
-                <p>Specifications</p>
+                <p>{{ $t('products.Specifications') }}</p>
 
                 <div class="border-solid border-2 p-4 border-gray-50 rounded-md shadow-lg flex-grow overflow-y-auto">
                     <a-table :columns="columns" :data-source="screen" :showHeader="false" :pagination='false'>
@@ -107,7 +104,7 @@
                 </div>
 
                 <div class="py-4 flex justify-center">
-                    <a-button class="w-full" @click="showModal">View more</a-button>
+                    <a-button class="w-full" @click="showModal">{{ $t('products.View more') }}</a-button>
                     <a-modal v-model:open="open" title="Specifications" footer=''>
                         <div class="modal-body">
                             <div class="border-solid border-2 p-4 my-5 border-gray-50 rounded-md shadow-lg">
@@ -185,6 +182,8 @@ import productService from '../../services/product.service';
 import { message } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
 import ProductReview from '../../components/Product/ProductReview.vue';
+import { useI18n } from 'vue-i18n';
+import { nextTick } from 'vue';
 
 interface Props {
     id: string;
@@ -248,6 +247,8 @@ const design = ref([
     { key: '2', name: 'Weight', detail: '' },
 ]);
 
+const { t } = useI18n();
+
 async function getProduct(id: number) {
     try {
         const res = await httpService.get(Product_API + `/${id}`);
@@ -259,14 +260,14 @@ async function getProduct(id: number) {
             setProductData([product]);
 
             screen.value = [
-                { key: '1', name: 'Screen size', detail: product.sizeScreen + ' inches' },
-                { key: '2', name: 'Display technology', detail: product.material },
-                { key: '3', name: 'Scanning frequency', detail: product.scanHz + ' Hz' },
+                { key: '1', name: t('products.Screen size'), detail: product.sizeScreen + ' inches' },
+                { key: '2', name: t('products.Display technology'), detail: product.material },
+                { key: '3', name: t('products.Scanning frequency'), detail: product.scanHz + ' Hz' },
             ];
 
             camera.value = [
-                { key: '1', name: 'Rear camera', detail: product.rearCam === '0' ? '' : product.rearCam },
-                { key: '2', name: 'Front camera', detail: product.frontCam === '0' ? '' : product.rearCam },
+                { key: '1', name: t('products.Rear camera'), detail: product.rearCam === '0' ? '' : product.rearCam },
+                { key: '2', name: t('products.Front camera'), detail: product.frontCam === '0' ? '' : product.frontCam },
             ];
 
             specifications.value = [
@@ -277,12 +278,12 @@ async function getProduct(id: number) {
             ];
 
             battery.value = [
-                { key: '1', name: 'Battery', detail: product.battery },
+                { key: '1', name: t('products.Battery'), detail: product.battery },
             ];
 
             design.value = [
-                { key: '1', name: 'Size', detail: product.size },
-                { key: '2', name: 'Weight', detail: product.weight + 'g' },
+                { key: '1', name: t('products.Size'), detail: product.size },
+                { key: '2', name: t('products.Weight'), detail: product.weight + 'g' },
             ];
             updatePrice();
         } else {

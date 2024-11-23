@@ -48,19 +48,21 @@
                         </a-form-item>
                     </div>
                     <a-form-item name="province" label="Province" :rules="[{ required: true }]">
-                        <a-select ref="select" v-model:value="formState.address.province" size="large"
-                            :options="options1" :labelInValue="true" @change="handleProvinceChange">
+                        <a-select ref="select" v-model:value="formState.address.province" size="large" showSearch
+                            optionFilterProp="label" :options="options1" :labelInValue="true"
+                            @change="handleProvinceChange">
                         </a-select>
                     </a-form-item>
                     <div class="grid grid-cols-2 gap-3">
                         <a-form-item name="district" label="District" :rules="[{ required: true }]">
                             <a-select v-model:value="formState.address.district" size="large" :options="options2"
-                                :disabled="!districtList.length" :labelInValue="true" @change="handleDistrictChange">
+                                showSearch optionFilterProp="label" :disabled="!districtList.length"
+                                :labelInValue="true" @change="handleDistrictChange">
                             </a-select>
                         </a-form-item>
                         <a-form-item name="ward" label="Ward" :rules="[{ required: true }]">
-                            <a-select v-model:value="formState.address.ward" size="large" :options="options3"
-                                :disabled="!wardList.length" :labelInValue="true">
+                            <a-select v-model:value="formState.address.ward" size="large" :options="options3" showSearch
+                                optionFilterProp="label" :disabled="!wardList.length" :labelInValue="true">
                             </a-select>
                         </a-form-item>
                     </div>

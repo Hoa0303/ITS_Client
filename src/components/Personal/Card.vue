@@ -11,13 +11,13 @@
 
         <div>
             <div class="p-2">
-                <router-link to="/order" exact-active-class="text-blue-500"> Orders </router-link>
+                <router-link to="/order" exact-active-class="text-blue-500"> {{ $t('orders') }} </router-link>
             </div>
             <div class="p-2">
-                <router-link to="/favorite" exact-active-class="text-blue-500"> Favorites </router-link>
+                <router-link to="/favorite" exact-active-class="text-blue-500"> {{ $t('favorites') }} </router-link>
             </div>
             <div class="p-2">
-                <router-link to="/info" exact-active-class="text-blue-500"> Information </router-link>
+                <router-link to="/info" exact-active-class="text-blue-500"> {{ $t('personal') }} </router-link>
             </div>
         </div>
 

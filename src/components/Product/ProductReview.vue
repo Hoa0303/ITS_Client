@@ -1,6 +1,6 @@
 <template>
     <div class="lg:col-span-5 md:col-span-4 border-solid border-2 p-4 border-gray-50 rounded-md shadow-lg relative">
-        <p>Review & Assessment of {{ props.productName }}</p>
+        <p>{{ $t('products.Review') }} {{ props.productName }}</p>
         <div>
             <div>
                 <div class="flex items-center space-x-2">
@@ -17,7 +17,7 @@
                 <a-comment>
                     <template #author><a>{{ item.fullName }}</a></template>
                     <template #avatar>
-                        <a-avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
+                        <a-avatar :src="item.imageUrl ? toImageLink(item.imageUrl) : null" />
                     </template>
                     <template #content>
                         <a-rate class="text-sm mb-2 text-red-600" :value="item.start" disabled></a-rate>
@@ -41,7 +41,7 @@ import { onMounted, ref } from 'vue';
 import { ReviewData, useTableData } from '../../hooks/Data';
 import httpService from '../../services/http.service';
 import { Product_API } from '../../services/api_url';
-import { formatDate, formatTime } from '../../services/common.service';
+import { formatDate, formatTime, toImageLink } from '../../services/common.service';
 
 const props = defineProps({
     productId: { type: Number, default: '' },
@@ -65,6 +65,7 @@ async function getReview(productId: number, page: number, pageSize: number) {
                 id: item.id,
                 description: item.description,
                 start: item.start,
+                imageUrl: item.imageUrl,
                 fullName: item.fullName,
                 createAt: item.createAt
             }));

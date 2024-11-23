@@ -1,0 +1,137 @@
+{
+  "home": "Home",
+  "product": "Product",
+  "about": "About",
+  "contact": "Contact",
+  "orders": "Orders",
+  "favorites": "Favorites",
+  "personal": "Personal",
+  "logout": "Log out",
+  "Cart": "Cart",
+  "shop-all": "Shopp All",
+
+  "Trending Products": "Trending Products",
+  "Popular Brands": "Popular Brands",
+  "Why Choose Us": "Why Choose Us",
+
+  "Are you confused,which product is suitable for you ?": "Are you confused,which product is suitable for you ?",
+  "Need consultation?": "Need consultation?",
+  "Contact us": "Contact us",
+
+  "products": {
+    "Price": "Price",
+    "Categories": "Categories",
+    "Brands": "Brands",
+    "Default": "Default",
+    "LowtoHigh": "Price - Low to High",
+    "HightoLow": "Price - High to Low",
+    "NotFound": "There is no product that matches your criteria!",
+    "Version": "Version",
+    "Colors": "Colors",
+    "Shop now": "Colors",
+    "Add to cart": "Add to cart",
+    "View more": "View more",
+    "Review": "Review & Assessment of",
+    "Specifications": "Specifications",
+    "Screen size": "Screen size",
+    "Display technology": "Display technology",
+    "Scanning frequency": "Scanning frequency",
+    "Rear camera": "Rear camera",
+    "Front camera": "Front camera",
+    "Battery": "Battery",
+    "Size": "Size",
+    "Weight": "Weight"
+  },
+
+  "cart": {
+    "My cart": "My cart",
+    "Subtotal": "Subtotal",
+    "VIEW CART": "VIEW CART",
+    "CHECKOUT": "CHECKOUT",
+
+    "Product": "Product",
+    "Price": "Price",
+    "Quantity": "Quantity",
+    "Sum": "Sum",
+    "Action": " Action",
+    "Total": "Total",
+    "Discount": "Discount"
+  },
+
+  "order": {
+    "All": "All",
+    "from": "from",
+    "status": "Status",
+    "paymentMethod": "Payment Method",
+    "total": "Total",
+    "amountPaid": "Amount Paid",
+    "viewDetail": "View Detail",
+    "confirmDeleteTitle": "Are you sure delete this order?",
+    "yes": "Yes",
+    "no": "No",
+    "cancelOrder": "Cancel order",
+    "confirmReceiptTitle": "Confirmation of receipt of items",
+    "received": "Received",
+    "review": "Review",
+    "repayment": "Repayment",
+    "countdown": "Countdown",
+    "loading": "Loading...",
+    "orderDetail": "Order Detail",
+    "reviewOrder": "Review order #",
+    "Processing": "Processing",
+    "Confirmed": "Confirmed",
+    "Shipping": "Shipping",
+    "Received": "Received",
+    "Done": "Done",
+    "Canceled": "Canceled"
+  },
+
+  "favorite": {
+    "Favorite Products": "Favorite Products",
+    "Add to cart": "Add to cart"
+  },
+
+  "person": {
+    "Contact": "Contact",
+    "Full name": "Full name",
+    "Phone Number": "Phone Number",
+
+    "Address": "Address",
+    "Receiver": "Receiver",
+    "Province": "Province",
+    "District": "District",
+    "Ward": "Ward",
+    "Detail": "Detail"
+  },
+
+  "checkout": {
+    "returnToCart": "Return to cart",
+    "checkout": "Checkout",
+    "contactInformation": "Contact Information",
+    "name": "Name",
+    "phone": "Phone",
+    "phoneRequired": "Phone number is required!",
+    "phoneInvalid": "Phone number is not valid!",
+    "shipping": "Shipping",
+    "province": "Province",
+    "district": "District",
+    "ward": "Ward",
+    "detail": "Detail",
+    "payment": "Payment",
+    "Cash": "Cash on Delivery",
+    "Electronic": "Electronic Payment",
+    "paymentOptions": "Payment Options",
+    "shippingCost": "Shipping",
+    "paymentMethod": "Payment",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "total": "Total",
+    "confirmCheckout": "Confirm Checkout",
+    "itemsInOrder": "Items in order",
+    "quantity": "Quantity",
+    "price": "Price",
+    "totalPrice": "Total Price"
+  },
+
+  "update": "Update"
+}

@@ -37,6 +37,7 @@ export interface ReviewData {
   id: number
   description: string
   start: number
+  imageUrl: string
   fullName: string
   createAt: string
 }

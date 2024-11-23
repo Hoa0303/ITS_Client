@@ -2,8 +2,8 @@
     <div>
         <div class="mb-3">
             <p class="text-xl mb-6">Delivery address</p>
-            <p class="text-sm" >{{ oderDetailData?.receiver }} - {{ oderDetailData?.phoneNumber }}</p>
-            <p class="text-sm" >{{ oderDetailData?.deliveryAddress }}</p>
+            <p class="text-sm">{{ oderDetailData?.receiver }} - {{ oderDetailData?.phoneNumber }}</p>
+            <p class="text-sm">{{ oderDetailData?.deliveryAddress }}</p>
 
         </div>
         <div class="">
@@ -15,9 +15,7 @@
                     </div>
                     <div class="col-span-2 px-1">
                         <p class="mb-1 text-md">
-                            <router-link :to="{ name: 'Details', params: { id: item.productId.toString() } }">
-                                {{ item.productName }}
-                            </router-link>
+                            {{ item.productName }}
                         </p>
                         <p class="mb-1 text-sm text-gray-500 flex justify-between">
                             <span>Type: {{ item.colorName }} </span>
@@ -40,7 +38,6 @@
 
         </div>
     </div>
-
 </template>
 
 <script lang="ts" setup>
@@ -60,7 +57,7 @@ async function getDetail(id: number) {
     try {
         const res = await httpService.getWithAuth(Order_API + `/${id}`);
         setOrderDetailData(res);
-        // console.log(oderDetailData.value);
+        console.log(oderDetailData.value);
     } catch (error) {
         console.error("Error");
     }

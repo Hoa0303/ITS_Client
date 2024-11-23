@@ -2,6 +2,7 @@ import App from './App.vue';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia'
 import router from './router';
+import i18n from './lang/i18n';
 
 import {
     Avatar, Button, Col, Dropdown, Form,
@@ -30,6 +31,8 @@ const pinia = createPinia()
 import './assets/main.css'
 import 'ant-design-vue/dist/reset.css';
 
+import 'leaflet/dist/leaflet.css';
+
 import DefaultLayout from './components/DefaultLayout.vue';
 import EmptyLayout from './components/EmptyLayout.vue';
 
@@ -43,4 +46,5 @@ components.forEach(component => app.use(component));
 
 app.use(router)
 app.use(pinia)
+app.use(i18n)
 app.mount('#app');

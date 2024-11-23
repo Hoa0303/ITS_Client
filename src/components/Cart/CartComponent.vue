@@ -29,7 +29,7 @@
     </div>
 
     <div class="flex justify-between items-center">
-        <p class="mx-5 text-xl font-semibold text-gray-400">Subtotal</p>
+        <p class="mx-5 text-xl font-semibold text-gray-400">{{ $t('cart.Subtotal') }}</p>
         <p class="text-lg font-semibold">{{ fomratVND(total) }}</p>
     </div>
 

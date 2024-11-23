@@ -1,9 +1,9 @@
 <template>
-    <div class="grid grid-cols-5 gap-2">
+    <div class="grid xl:grid-cols-5 lg:grid-cols-1 gap-2">
 
         <div class="p-6 px-4 h-fit">
             <div class="mb-6">
-                <p class="text-lg font-semibold mb-4">Price</p>
+                <p class="text-lg font-semibold mb-4">{{ $t('products.Price') }}</p>
                 <a-input-group compact>
                     <a-input v-model:value="minprices" size="large" style="width: 100px; text-align: center"
                         placeholder="Minimum" />
@@ -15,8 +15,8 @@
             </div>
 
             <div class="mb-6">
-                <p class="text-lg font-semibold mb-4">Categories</p>
-                <a-checkbox-group v-model:value="selectedCategories" class="grid grid-cols-2 gap-4">
+                <p class="text-lg font-semibold mb-4">{{ $t('products.Categories') }}</p>
+                <a-checkbox-group v-model:value="selectedCategories" class="xl:grid grid-cols-2 gap-4">
                     <a-checkbox v-for="(item, index) in categoriesData" :key="index" :value="item.id">
                         {{ item.name }}
                     </a-checkbox>
@@ -24,8 +24,8 @@
             </div>
 
             <div class="mb-6">
-                <p class="text-lg font-semibold mb-4">Brands</p>
-                <a-checkbox-group v-model:value="selectedBrands" class="grid grid-cols-2 gap-4">
+                <p class="text-lg font-semibold mb-4">{{ $t('products.Brands') }}</p>
+                <a-checkbox-group v-model:value="selectedBrands" class="xl:grid grid-cols-2 gap-4">
                     <a-checkbox v-for="(item, index) in brandsData" :key="index" :value="item.id">
                         {{ item.name }}
                     </a-checkbox>
@@ -34,7 +34,7 @@
 
             <div>
                 <p class="text-lg font-semibold mb-4">Ram</p>
-                <a-checkbox-group v-model:value="selectedRams" class="grid grid-cols-2 gap-4">
+                <a-checkbox-group v-model:value="selectedRams" class="xl:grid grid-cols-2 gap-4">
                     <a-checkbox v-for="item in [4, 6, 8, 16, 32, 64]" :key="item" :value="item">
                         {{ item }} GB
                     </a-checkbox>
@@ -66,17 +66,19 @@ import { Brand_API, Category_API } from '../../services/api_url';
 import { useTableData } from '../../hooks/Data';
 import { toImageLink } from '../../services/common.service';
 import { useRouter, useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 const getPopupContainer = (triggerNode: any) => triggerNode.parentNode
 
 const minprices = ref<string>('');
 const maxprices = ref<string>('');
 
+const { t } = useI18n();
 const sortData = ref('0');
 const options = ref<SelectProps['options']>([
-    { value: '0', label: 'Default' },
-    { value: '1', label: 'Price - Low to High' },
-    { value: '2', label: 'Price - High to Low' },
+    { value: '0', label: t('products.Default') },
+    { value: '1', label: t('products.LowtoHigh') },
+    { value: '2', label: t('products.HightoLow') },
 ]);
 
 const selectedCategories = ref<number[]>([]);

@@ -1,7 +1,7 @@
 <template>
-    <div class="mt-10 pt-10 px-60 bg-gray-100">
-        <p class="text-center text-4xl text-blue-950 m-0">Popular Brands</p>
-        <a-carousel :slidesToShow="6" :dots="false" arrows>
+    <div class="mt-10 pt-10 px-10 md:px-20 lg:px-40 xl:px-60 bg-gray-100">
+        <p class="text-center text-4xl text-blue-950 m-0">{{ $t('Popular Brands') }}</p>
+        <a-carousel :slidesToShow="6" :dots="false" arrows :responsive="responsiveSettings">
             <template #prevArrow>
                 <div class="custom-slick-arrow select-none -left-3">
                     <left-circle-outlined />
@@ -20,8 +20,8 @@
             </div>
         </a-carousel>
     </div>
-
 </template>
+
 <script lang="ts" setup>
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons-vue';
 import { ref, onMounted } from "vue";
@@ -33,6 +33,39 @@ import { Brand_API } from '../../services/api_url';
 const { brandsData, setBrandsData } = useTableData();
 const data = ref([]);
 
+const responsiveSettings = [
+    {
+        breakpoint: 1200,
+        settings: {
+            slidesToShow: 6,
+        }
+    },
+    {
+        breakpoint: 992,
+        settings: {
+            slidesToShow: 4,
+        }
+    },
+    {
+        breakpoint: 768,
+        settings: {
+            slidesToShow: 3,
+        }
+    },
+    {
+        breakpoint: 576,
+        settings: {
+            slidesToShow: 2,
+        }
+    },
+    {
+        breakpoint: 0,
+        settings: {
+            slidesToShow: 1,
+        }
+    }
+];
+
 async function getAll() {
     try {
         const res = await httpService.get(Brand_API);
@@ -43,7 +76,6 @@ async function getAll() {
         }));
         data.value = res.data;
         setBrandsData(formattedData);
-
     } catch (error) {
         console.error("Error fetching all products: ", error);
     }

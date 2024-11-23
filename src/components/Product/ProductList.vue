@@ -1,7 +1,13 @@
 <template>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 py-4">
-        <div v-if="(products.length == 0)" class="">Not Found</div>
-        <div v-for="(item, index) in products" :key="index">
+        <div v-if="isLoading" class="col-span-full flex justify-center">
+            <a-spin size="large" />
+        </div>
+        <div v-if="!isLoading && products.length == 0" class="col-span-full flex flex-col justify-center items-center">
+            <div class="text-4xl text-gray-400 mb-4">😞</div>
+            <p class="text-gray-500 text-lg font-semibold">{{ $t('products.NotFound') }}</p>
+        </div>
+        <div v-for="(item, index) in products" :key="index" v-if="!isLoading">
             <a-badge-ribbon :text="'-' + item.discount + '%'" color="red" placement="start">
                 <a-card class="relative rounded-lg overflow-hidden shadow-lg" :bodyStyle="{ padding: '1rem' }">
                     <router-link :to="{ name: 'Details', params: { id: item.id.toString() } }">
@@ -72,12 +78,14 @@ const pageSize = ref(8);
 const totalItems = ref();
 const searchKey = computed(() => route.query.search || '');
 const favoriteProducts = ref<number[]>([]);
+const isLoading = ref(false);
 
 function addPageSize() {
     pageSize.value += 4;
 }
 
 async function filterProduct() {
+    isLoading.value = true;
     const params = new URLSearchParams();
 
     const categoryIds = props.selectedCategories as (string | number)[];
@@ -125,9 +133,11 @@ async function filterProduct() {
         }));
         setProduct(formattedData);
         // console.log(searchKey.value);
-        // console.log(products.value);        
+        // console.log(res.data);        
     } catch (error) {
         console.error("Error filtering products: ", error);
+    } finally {
+        isLoading.value = false;
     }
 }
 

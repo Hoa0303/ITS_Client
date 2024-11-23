@@ -37,6 +37,8 @@ export default defineComponent({
             "appId": "fa7eacc28ccf56e74e91ce43a4135782",
             "popupWidget": true,
             "automaticChatOpenOnNavigation": true,
+            "emojilibrary": true,
+            "quickReplies": ["Hướng dẫn đặt hàng", "Kiểm tra đơn hàng", "Hướng dẫn đăng nhập"],
             "userId": userId.value,
             "userName": userName.value,
           };
@@ -56,6 +58,7 @@ export default defineComponent({
             "appId": "fa7eacc28ccf56e74e91ce43a4135782",
             "popupWidget": true,
             "automaticChatOpenOnNavigation": true,
+            "quickReplies": ["Hướng dẫn đặt hàng", "Kiểm tra đơn hàng", "Hướng dẫn đăng nhập"],            
           };
           var s = document.createElement("script");
           s.type = "text/javascript";
@@ -78,7 +81,8 @@ export default defineComponent({
 
 <style>
 .kommunicate-custom-iframe {
-  bottom: 50px !important;
+  z-index: 30 !important;
+  bottom: 20px !important;
 }
 
 .km-iframe-dimension-with-popup {

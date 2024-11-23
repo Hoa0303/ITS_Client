@@ -8,14 +8,20 @@
     <div class="relative py-10">
         <img src="../assets/images/Carousel/support-img.png" class="w-full h-80">
         <div class="absolute inset-y-[30%] left-[10%]">
-            <p class="text-3xl text-white font-medium">Are you confused,which product is suitable for you ?</p>
-            <p class="text-3xl text-sky-400 font-semibold">Need consultation? </p>
-            <a-button size="large">Contact us</a-button>
+            <p class="text-3xl text-white font-medium">
+                {{ $t('Are you confused,which product is suitable for you ?') }}
+            </p>
+            <p class="text-3xl text-sky-400 font-semibold">
+                {{ $t('Need consultation?') }}
+            </p>
+            <a-button size="large">
+                {{ $t('Contact us') }}
+            </a-button>
         </div>
     </div>
 
     <div class="pb-10">
-        <p class="text-center text-4xl text-blue-950 font-semibold">Why Choose Us</p>
+        <p class="text-center text-4xl text-blue-950 font-semibold">{{ $t('Why Choose Us') }}</p>
     </div>
 
 </template>

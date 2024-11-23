@@ -14,6 +14,7 @@ export interface Product {
     rom: number;
     cpu: string;
     price: number;
+    sold: number;
 }
 
 export interface ProductVersion {

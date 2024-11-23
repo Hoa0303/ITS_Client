@@ -8,37 +8,37 @@
             </div>
             <div class="flex items-end my-4 mx-4 gap-5">
                 <span class="flex items-center">
-                    Status:
+                    <span>{{ $t('order.status') }}:</span>
                     <a-tag class="p-1 m-2" :color="statusStyles1[item.orderStatus]">
-                        {{ OrderSatus[item.orderStatus] }}
+                        {{ $t('order.' + OrderSatus[item.orderStatus]) }}
                     </a-tag>
                 </span>
             </div>
         </div>
         <div class="grid grid-cols-2 gap-4 my-4 mx-4">
-            <div>Payment Method</div>
+            <div>{{ $t('order.paymentMethod') }}</div>
             <div>{{ item.paymentMethod }}</div>
         </div>
 
         <a-divider class="mt-1 bg-gray-100" style="height: 2px;" />
         <div class="grid grid-cols-2 gap-4 my-4 mx-4">
-            <div>Total</div>
+            <div>{{ $t('order.total') }}</div>
             <div>{{ fomratVND(item.total) }}</div>
         </div>
         <a-divider class="mt-1 bg-gray-100" style="height: 2px;" />
         <div class="grid grid-cols-2 gap-4 my-4 mx-4">
-            <div>Amout Paid</div>
+            <div>{{ $t('order.amountPaid') }}</div>
             <div>{{ fomratVND(item.amountPaid) }}</div>
         </div>
         <div class="flex items-end justify-end my-5 mx-4 gap-5">
-            <a-button size="large" @click="showDrawer(item.id)">View Detail</a-button>
+            <a-button size="large" @click="showDrawer(item.id)">{{ $t('order.viewDetail') }}</a-button>
 
             <a-popconfirm title="Are you sure delete this order?" ok-text="Yes" cancel-text="No"
                 @confirm="cacelOrder(item.id)">
                 <a-button
                     v-if="OrderSatus[item.orderStatus] == 'Processing' || OrderSatus[item.orderStatus] == 'Confirmed'"
                     danger size="large">
-                    Cancel order
+                    {{ $t('order.cancelOrder') }}
                 </a-button>
             </a-popconfirm>
 
@@ -46,17 +46,17 @@
                 @confirm="receivedOrder(item.id)">
                 <a-button v-if="OrderSatus[item.orderStatus] == 'Shipping'" size="large"
                     class="border-orange-500 text-orange-500">
-                    Received
+                    {{ $t('order.received') }}
                 </a-button>
             </a-popconfirm>
 
             <a-button v-if="!item.reviewed && OrderSatus[item.orderStatus] == 'Received'"
                 class="border-orange-500 text-orange-500" size="large" @click="showModal(item.id)">
-                Review
+                {{ $t('order.review') }}
             </a-button>
 
             <a-button v-if="item.payBackUrl != null" size="large" @click="redirectToPayBack(item.payBackUrl)">
-                Repayment
+                {{ $t('order.repayment') }}
             </a-button>
             <a-statistic-countdown v-if="item.payBackUrl != null" title="Countdown" :value="item.deadline"
                 style="margin-right: 50px" />
