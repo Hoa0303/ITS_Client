@@ -10,7 +10,7 @@
             </router-link>
 
             <!-- Menu on larger screens -->
-            <a-menu v-if="windowWidth >= 1024" class="hidden lg:flex text-lg" :inlineCollapsed="false"
+            <a-menu v-if="windowWidth >= 1024" class="hidden flex-1 justify-center lg:flex text-lg" :inlineCollapsed="false"
                 v-model:selectedKeys="current" mode="horizontal" :items="items" />
 
             <!-- Right-side buttons (Search, User, Cart, etc.) -->

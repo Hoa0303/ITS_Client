@@ -22,7 +22,7 @@
                             <a-input v-model:value="formState.user.phonenumber" size="large" />
                         </a-form-item>
                         <a-form-item label="Email">
-                            <a-input v-model:value="formState.user.email" size="large" disabled />
+                            <a-input v-model:value="formState.user.email" size="large" readonly />
                         </a-form-item>
                         <a-form-item>
                             <a-button type="primary" @click="updateInfor()">Update</a-button>

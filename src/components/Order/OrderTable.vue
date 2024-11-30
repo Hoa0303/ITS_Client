@@ -146,6 +146,7 @@ async function getOrderByUserId(size: number) {
             payBackUrl: item.payBackUrl,
             deadline: getPaymentDeadline(item.orderDate)
         }));
+        // console.log(res);        
         totalItems.value = res.totalItems;
         setOrder(formData);
     } catch (error) {

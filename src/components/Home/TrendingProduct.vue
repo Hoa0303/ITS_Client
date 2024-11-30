@@ -14,7 +14,7 @@
                                 <router-link :to="{ name: 'Details', params: { id: item.id.toString() } }">
                                     <div class="text-lg font-semibold mb-2 h-14 hover:text-green-500 line-clamp-2">{{
                                         item.name
-                                    }}</div>
+                                        }}</div>
                                 </router-link>
 
                                 <div class="flex flex-wrap mb-2 justify-start">
@@ -66,6 +66,7 @@ async function getAll() {
             brand: item.brandName,
             imageUrl: toImageLink(item.imageUrl),
             sizescreen: item.sizeScreen,
+            rating: item.rating,
             ram: item.ram,
             rom: item.rom,
             price: item.price,

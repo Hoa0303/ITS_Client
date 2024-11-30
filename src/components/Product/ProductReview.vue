@@ -4,7 +4,7 @@
         <div>
             <div>
                 <div class="flex items-center space-x-2">
-                    <span class="text-3xl font-semibold text-red-600">{{ props.rating }}</span>
+                    <span class="text-3xl font-semibold text-red-600">{{ props.rating.toFixed(1) }}</span>
                     <span class="text-xl text-gray-500">out of 5</span>
                 </div>
 

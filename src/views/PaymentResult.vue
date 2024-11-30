@@ -58,11 +58,20 @@ const handlePayment = async () => {
         try {
             console.log(params.value);
             await httpService.getWithParams(Payment_APi + callbackUrl.value, params.value);
-            notification.success({
-                message: 'Thanh toán thành công',
-                description: 'Vui lòng kiểm tra lại đơn hàng của bạn',
-                class: 'text-green-500',
-            });
+            if (params.value.vnp_TransactionStatus == "00") {
+                notification.success({
+                    message: 'Thanh toán thành công',
+                    description: 'Vui lòng kiểm tra lại đơn hàng của bạn',
+                    class: 'text-green-500',
+                });
+            }
+            else {
+                notification.warning({
+                    message: 'Có lỗi xảy ra!',
+                    description: 'Vui lòng thanh toán lại',
+                    class: 'text-red-500',
+                });
+            }
         } catch (error) {
             notification.error({
                 message: 'Thanh toán thất bại',

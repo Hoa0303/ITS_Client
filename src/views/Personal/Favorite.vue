@@ -1,5 +1,5 @@
 <template>
-    <div class="grid lg:grid-cols-8 md:grid-cols-6 py-10 sm:px-6 md:px-8 lg:px-28 gap-9">
+    <div class="grid lg:grid-cols-8 md:grid-cols-6 py-10 sm:px-6 md:px-8 lg:px-28 gap-9 ">
         <div class="lg:col-span-2 md:col-span-2 shadow-lg rounded-lg p-5 h-fit sticky top-24">
             <Card class="sticky top-24" />
         </div>
@@ -44,8 +44,13 @@
                             <div class="text-red-600 text-2xl font-semibold">
                                 {{ fomratVND(item.price - (item.price * (item.discount / 100))) }}
                             </div>
-                            <a-button type="primary" size="large" class="mt-2 block"
-                                @click="addToCart(item.id, item.colorId)">ADD TO CART</a-button>
+                            <!-- <a-button type="primary" size="large" class="mt-2 block"
+                                @click="addToCart(item.id, item.colorId)">ADD TO CART</a-button> -->
+                            <a-button type="primary" size="large" class="mt-2 block">
+                                <router-link :to="{ name: 'Details', params: { id: item.id.toString() } }">
+                                    VIEW DETAILS
+                                </router-link>
+                            </a-button>
                         </div>
                     </div>
                 </div>
