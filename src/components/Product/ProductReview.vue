@@ -4,12 +4,12 @@
         <div>
             <div>
                 <div class="flex items-center space-x-2">
-                    <span class="text-3xl font-semibold text-red-600">{{ props.rating.toFixed(1) }}</span>
+                    <span class="text-3xl font-semibold text-yellow-500">{{ props.rating.toFixed(1) }}</span>
                     <span class="text-xl text-gray-500">out of 5</span>
                 </div>
 
                 <div class="flex items-end">
-                    <a-rate class="text-red-600" :value="rating" allow-half disabled></a-rate>
+                    <a-rate class="text-yellow-500" :value="rating" allow-half disabled></a-rate>
                 </div>
             </div>
 
@@ -20,7 +20,7 @@
                         <a-avatar :src="item.imageUrl ? toImageLink(item.imageUrl) : null" />
                     </template>
                     <template #content>
-                        <a-rate class="text-sm mb-2 text-red-600" :value="item.start" disabled></a-rate>
+                        <a-rate class="text-sm mb-2 text-yellow-500" :value="item.start" disabled></a-rate>
                         <div>{{ item.description }}</div>
                     </template>
                     <template #datetime>

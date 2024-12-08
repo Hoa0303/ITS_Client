@@ -180,9 +180,9 @@ const cookieExists = ref(false);
 
 const logOut = () => {
     Modal.confirm({
-        title: 'Confirm Logout',
+        title: 'Xác nhận đăng xuất',
         icon: createVNode(ExclamationCircleOutlined),
-        content: 'Are you sure you want to log out? All session data will be cleared.',
+        content: 'Bạn có chắc chắn muốn đăng xuất không? Tất cả dữ liệu phiên sẽ bị xóa.',
         onOk() {
             return new Promise<void>((resolve, reject) => {
                 Cookies.remove('client_data');
@@ -191,10 +191,10 @@ const logOut = () => {
                     resolve();
                     window.location.replace("/login")
                 }, 1000);
-            }).catch(() => console.log('An error occurred!'));
+            }).catch(() => console.log('Đã xảy ra lỗi!'));
         },
         onCancel() {
-            console.log('Logout action was canceled.');
+            console.log('Hành động đăng xuất đã bị hủy.');
         },
     });
 };

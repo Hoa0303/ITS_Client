@@ -34,11 +34,11 @@ export default defineComponent({
       if (checkLogin()) {
         (function (d, m) {
           var kommunicateSettings: any = {
-            "appId": "fa7eacc28ccf56e74e91ce43a4135782",
+            "appId": "2d61eae030729574b58385cf7a465fb72",
             "popupWidget": true,
             "automaticChatOpenOnNavigation": true,
             "emojilibrary": true,
-            "quickReplies": ["Hướng dẫn đặt hàng", "Kiểm tra đơn hàng", "Hướng dẫn đăng nhập"],
+            "quickReplies": ["Hướng dẫn đặt hàng", "Kiểm tra đơn hàng", "Hướng dẫn tạo tài khoản"],
             "userId": userId.value,
             "userName": userName.value,
           };
@@ -55,10 +55,10 @@ export default defineComponent({
       else {
         (function (d, m) {
           var kommunicateSettings: any = {
-            "appId": "fa7eacc28ccf56e74e91ce43a4135782",
+            "appId": "2d61eae030729574b58385cf7a465fb72",
             "popupWidget": true,
             "automaticChatOpenOnNavigation": true,
-            "quickReplies": ["Hướng dẫn đặt hàng", "Kiểm tra đơn hàng", "Hướng dẫn đăng nhập"],            
+            "quickReplies": ["Hướng dẫn đặt hàng", "Kiểm tra đơn hàng", "Hướng dẫn tạo tài khoản"],            
           };
           var s = document.createElement("script");
           s.type = "text/javascript";

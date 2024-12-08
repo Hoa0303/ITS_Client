@@ -30,12 +30,18 @@
                 <!-- Version -->
                 <p v-if="productsVersion.length > 1" class="pt-4">{{ $t('products.Version') }}</p>
                 <div v-if="productsVersion.length > 1" class="grid grid-cols-3 gap-3">
-                    <router-link :to="`/product/${item.id}`" v-for="(item) in productsVersion" :key="item.id"
+                    <a :href="`/product/${item.id}`" v-for="(item) in productsVersion" :key="item.id"
                         class="flex-col flex justify-center items-center gap-1 py-2 border-solid border border-gray-300 rounded-lg"
                         :class="{ 'bg-gray-200': selectedVersionId === item.id }" @click="setSelectedVersion(item.id)">
                         <div class="font-semibold text-xs">{{ item.version }}</div>
                         <div class="text-xs">{{ fomratVND(item.price) }}</div>
-                    </router-link>
+                    </a>
+                    <!-- <router-link :to="`/product/${item.id}`" v-for="(item) in productsVersion" :key="item.id"
+                        class="flex-col flex justify-center items-center gap-1 py-2 border-solid border border-gray-300 rounded-lg"
+                        :class="{ 'bg-gray-200': selectedVersionId === item.id }" @click="setSelectedVersion(item.id)">
+                        <div class="font-semibold text-xs">{{ item.version }}</div>
+                        <div class="text-xs">{{ fomratVND(item.price) }}</div>
+                    </router-link> -->
                     <!-- <div v-for="(item) in productsVersion" :key="item.id"
                         class="flex-col flex justify-center items-center gap-1 py-2 border-solid border border-gray-300 rounded-lg"
                         :class="{ 'bg-gray-200': selectedVersionId === item.id }" @click="setSelectedVersion(item.id)">
@@ -343,10 +349,14 @@ async function addToCart() {
         }
         const res = await httpService.postWithAuth(Cart_API, data);
         console.log(res);
-        message.success('Item has been added to your shopping cart')
+        message.success('Sản phẩm đã được thêm vào giỏ hàng của bạn!')
     }
-    catch {
-        message.error('Fail to added to your shopping cart');
+    catch (error: any) {
+        if (error.status == 401) {
+            router.push("/login");
+        } else {
+            message.error(error.response.data);
+        }
     }
 };
 

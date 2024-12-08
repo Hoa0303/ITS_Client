@@ -20,12 +20,10 @@
                         </div>
 
                         <div class="">
-                            <div class="text-gray-500 text-sm">{{ item.category }}</div>
-                            <router-link :to="{ name: 'Details', params: { id: item.id.toString() } }">
-                                <div class="text-gray-800 text-lg font-semibold hover:text-green-500 py-2">
-                                    {{ item.name }}
-                                </div>
-                            </router-link>
+                            <div class="text-gray-500 text-sm italic">{{ item.category }}</div>
+                            <div class=" text-lg font-semibold text-green-500 py-2">
+                                {{ item.name }}
+                            </div>
                             <div class="text-gray-400 text-sm">Diagonal display:
                                 <span class="text-gray-800">{{ item.sizescreen }} inches</span>
                             </div>

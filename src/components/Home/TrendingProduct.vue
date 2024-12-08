@@ -82,3 +82,10 @@ onMounted(() => {
     getAll();
 });
 </script>
+
+<style scoped>
+img:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+</style>

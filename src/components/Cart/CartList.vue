@@ -51,7 +51,9 @@
                 <span>{{ t('cart.Total') }}</span>
                 <span>{{ fomratVND(total) }}</span>
             </div>
-            <button class="bg-blue-500 text-white w-full mt-4 p-2 rounded" @click="goToCheckout">Checkout</button>
+            <button class="bg-blue-500 text-white w-full mt-4 p-2 rounded" @click="goToCheckout">
+                {{ $t('checkout.checkout') }}
+            </button>
         </div>
     </div>
 </template>

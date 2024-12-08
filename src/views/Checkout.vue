@@ -24,11 +24,12 @@
                 <!-- Information -->
                 <div class="py-1">
                     <div class="text-start text-4xl py-5">
-                        <span class="text-gray-400 select-none">1. </span>{{$t('checkout.contactInformation')}}
+                        <span class="text-gray-400 select-none">1. </span>{{ $t('checkout.contactInformation') }}
                     </div>
                     <div class="">
                         <div class="grid grid-cols-2 gap-3">
-                            <a-form-item :name="['user', 'name']" :label="$t('checkout.name')" :rules="[{ required: true }]">
+                            <a-form-item :name="['user', 'name']" :label="$t('checkout.name')"
+                                :rules="[{ required: true }]">
                                 <a-input v-model:value="formState.user.name" size="large" />
                             </a-form-item>
                             <a-form-item :name="['user', 'phoneNumber']" :label="$t('checkout.phone')" :rules="[
@@ -44,7 +45,7 @@
                 <!-- Address -->
                 <div class="py-1">
                     <div class="text-start text-4xl py-5">
-                        <span class="text-gray-400 select-none">2. </span>{{$t('checkout.shipping')}}
+                        <span class="text-gray-400 select-none">2. </span>{{ $t('checkout.shipping') }}
                     </div>
                     <div class="rounded-lg border p-4">
                         <a-tabs v-model:activeKey="activeKey">
@@ -58,21 +59,24 @@
                                     <a-form-item :name="['address', 'province']" :label="$t('checkout.province')"
                                         :rules="[{ required: true }]">
                                         <a-select ref="select" v-model:value="formState.address.province" size="large"
-                                            :options="options1" :labelInValue="true" @change="handleProvinceChange">
+                                            showSearch optionFilterProp="label" :options="options1" :labelInValue="true"
+                                            @change="handleProvinceChange">
                                         </a-select>
                                     </a-form-item>
                                     <div class="grid grid-cols-2 gap-3">
                                         <a-form-item :name="['address', 'district']" :label="$t('checkout.district')"
                                             :rules="[{ required: true }]">
-                                            <a-select v-model:value="formState.address.district" size="large"
-                                                :options="options2" :disabled="!districtList.length"
-                                                :labelInValue="true" @change="handleDistrictChange">
+                                            <a-select v-model:value="formState.address.district" size="large" showSearch
+                                                optionFilterProp="label" :options="options2"
+                                                :disabled="!districtList.length" :labelInValue="true"
+                                                @change="handleDistrictChange">
                                             </a-select>
                                         </a-form-item>
                                         <a-form-item :name="['address', 'ward']" :label="$t('checkout.ward')"
                                             :rules="[{ required: true }]">
-                                            <a-select v-model:value="formState.address.ward" size="large"
-                                                :options="options3" :disabled="!wardList.length" :labelInValue="true">
+                                            <a-select v-model:value="formState.address.ward" size="large" showSearch
+                                                optionFilterProp="label" :options="options3"
+                                                :disabled="!wardList.length" :labelInValue="true">
                                             </a-select>
                                         </a-form-item>
                                     </div>
@@ -81,7 +85,7 @@
                                         <a-textarea v-model:value="formState.address.detail" />
                                     </a-form-item>
                                     <a-form-item>
-                                        <a-button type="primary" @click="UpdateAddress">{{$t('update')}}</a-button>
+                                        <a-button type="primary" @click="UpdateAddress">{{ $t('update') }}</a-button>
                                     </a-form-item>
                                 </div>
                             </a-tab-pane>
@@ -92,7 +96,7 @@
                 <!-- Payment Method -->
                 <div class="py-1">
                     <div class="text-start text-4xl py-5">
-                        <span class="text-gray-400 select-none">3. </span>{{$t('checkout.payment')}}
+                        <span class="text-gray-400 select-none">3. </span>{{ $t('checkout.payment') }}
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div v-for="(option) in paymentOptions" :key="option.id" @click="selectPayment(option.id)"
@@ -115,7 +119,7 @@
             <!-- Items in order -->
             <div class="rounded-lg border px-4 h-fit sticky top-32">
                 <div class="text-start text-xl pt-4">
-                    {{$t('checkout.itemsInOrder')}}
+                    {{ $t('checkout.itemsInOrder') }}
                 </div>
 
                 <!-- Detail on cart  -->
@@ -214,7 +218,9 @@
                         </div>
                     </div>
                     <div class="p-4">
-                        <a-button class="w-full" size="large" type="primary" html-type="submit"> {{ $t('checkout.checkout') }}</a-button>
+                        <a-button class="w-full" size="large" type="primary" html-type="submit">
+                            {{ $t('checkout.checkout') }}
+                        </a-button>
                     </div>
                 </div>
             </div>
@@ -235,7 +241,7 @@ import { Order_API, User_API } from '../services/api_url';
 import { useCartStore } from '../hooks/CartStore';
 import { CartTableData, useTableData } from '../hooks/Data';
 import { fomratVND } from '../services/common.service';
-import { notification, SelectProps } from 'ant-design-vue';
+import { message, notification, SelectProps } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
@@ -287,7 +293,7 @@ interface PaymentOption {
     description: string;
 }
 
-const {t} = useI18n();
+const { t } = useI18n();
 const paymentOptions = computed<PaymentOption[]>(() => [
     {
         id: 1,
@@ -296,7 +302,7 @@ const paymentOptions = computed<PaymentOption[]>(() => [
     },
     {
         id: 2,
-        title:  t('checkout.Electronic'),
+        title: t('checkout.Electronic'),
         description: 'VNPay',
     },
 ]);
@@ -343,7 +349,7 @@ async function getWards(districtCode: number) {
 }
 
 const handleProvinceChange = (value: Option) => {
-    console.log(`Selected province: ${value}`);
+    // console.log(`Selected province: ${value}`);
     formState.address.province = value;
     getDistricts(parseInt(value.value));
     formState.address.district = { value: '', label: '' };
@@ -353,7 +359,7 @@ const handleProvinceChange = (value: Option) => {
 };
 
 const handleDistrictChange = (value: Option) => {
-    console.log(`Selected district: ${value}`);
+    // console.log(`Selected district: ${value}`);
     formState.address.district = value;
     getWards(parseInt(value.value));
     formState.address.ward = { value: '', label: '' };
@@ -413,8 +419,16 @@ async function onFinish() {
             await httpService.postWithAuth(Order_API, data);
             router.replace('/order');
         }
-    } catch {
-        console.error('Error:');
+        // } catch {
+        //     message.error("Xảy ra lỗi khi thanh toán", 2);
+        // }
+    } catch (error: any) {
+        if (error.response.status == 400) {
+            message.error("Vui lòng kiểm tra thông tin thanh toán!", 2);
+        }
+        else if (error.response.status == 500) {
+            message.error(error.response.data, 2);
+        }
     }
 };
 

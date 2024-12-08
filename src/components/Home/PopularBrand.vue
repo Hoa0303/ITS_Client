@@ -100,4 +100,9 @@ onMounted(() => {
 :deep(.slick-arrow.custom-slick-arrow:before) {
     display: none;
 }
+
+img:hover {
+    transform: scale(1.2);
+    transition: transform 0.5s ease;
+}
 </style>

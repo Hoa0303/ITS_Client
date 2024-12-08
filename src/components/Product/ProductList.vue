@@ -28,9 +28,10 @@
                             </a-tag>
                         </div>
 
-                        <div class="flex items-baseline gap-2 mb-2">
-                            <div class="text-xl font-bold text-red-500">{{ fomratVND(item.price - (item.price *
-                                (item.discount / 100))) }}</div>
+                        <div class="flex-col items-baseline gap-2 mb-2">
+                            <div class="text-xl font-bold text-red-500">
+                                {{ fomratVND(item.price - (item.price * (item.discount / 100))) }}
+                            </div>
                             <div class="line-through text-gray-500">{{ fomratVND(item.price) }}</div>
                         </div>
 

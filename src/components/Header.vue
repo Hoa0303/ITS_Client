@@ -1,21 +1,27 @@
 <template>
     <div class="bg-white sticky top-0 z-30 shadow-lg">
-        <div class="bg-white px-16 flex justify-between items-center h-24">
-            <router-link to="/">
-                <img src="/ITS.png" class="w-24" />
-            </router-link>
-            <a-menu class="text-lg flex-1 justify-center" :inlineCollapsed="false" v-model:selectedKeys="current"
-                mode="horizontal" :items="items" />
+        <div class="bg-white px-4 lg:px-16 flex justify-between items-center h-24">
+            <!-- Button for showing menu on small screens -->
+            <MenuOutlined class="text-xl cursor-pointer lg:hidden" @click="showMenuDrawer" />
 
-            <div class="">
+            <!-- Logo centered on small screens -->
+            <router-link to="/" class="flex-grow text-center lg:flex-grow-0">
+                <img src="/ITS.png" class="w-24 inline-block" />
+            </router-link>
+
+            <!-- Menu on larger screens -->
+            <a-menu v-if="windowWidth >= 1024" class="hidden flex-1 justify-center lg:flex text-lg"
+                :inlineCollapsed="false" v-model:selectedKeys="current" mode="horizontal" :items="items" />
+
+            <!-- Right-side buttons (Search, User, Cart, etc.) -->
+            <div class="flex items-center space-x-4">
                 <!-- Search -->
                 <SearchOutlined class="text-xl p-1" @click="toggleSearch" />
 
-                <!-- Presonal -->
+                <!-- Personal -->
                 <router-link v-if="!cookieExists" to="/login">
                     <UserOutlined class="text-xl p-1" />
                 </router-link>
-
                 <a-dropdown v-else>
                     <UserOutlined class="text-xl p-1" />
                     <template #overlay>
@@ -36,7 +42,7 @@
                     </template>
                 </a-dropdown>
 
-                <!-- Trans -->
+                <!-- Translations -->
                 <a-dropdown trigger="['click']">
                     <GlobalOutlined class="text-xl p-1" />
                     <template #overlay>
@@ -56,29 +62,13 @@
                     <ShoppingCartOutlined class="text-2xl p-1" />
                 </router-link>
                 <ShoppingCartOutlined v-else class="text-2xl p-1" @click="!isCartPage ? showDrawer() : null" />
-                <a-drawer :title="$t('cart.My cart')" :footer-style="{ textAlign: 'right' }" :closable="false" :open="open"
-                    @close="onClose">
-
-                    <CartComponent ref="cartComponentRef" @updateCart="handleCartUpdate" />
-
-                    <template #footer>
-                        <a-button style="margin-right: 8px" size="large">
-                            <router-link to="/cart" @click="onClose">
-                                {{ $t('cart.VIEW CART') }}
-                            </router-link>
-                        </a-button>
-
-                        <a-button type="primary" @click="checkout" size="large">
-                            <router-link to="/checkout">
-                                {{ $t('cart.CHECKOUT') }}
-                            </router-link>
-                        </a-button>
-                    </template>
-                </a-drawer>
             </div>
 
+
         </div>
-        <div v-if="isSearchVisible" class="bg-white flex justify-center items-center border-t ">
+
+        <!-- Search bar -->
+        <div v-if="isSearchVisible" class="bg-white flex justify-center items-center border-t">
             <div class="ps-16 w-full">
                 <a-input class="py-5 w-full" size="large" :bordered="false" placeholder="Search..."
                     v-model:value="searchKey" @keydown.enter="performSearch" />
@@ -87,13 +77,41 @@
                 <CloseOutlined class="cursor-pointer text-gray-400" @click="toggleSearch" />
             </div>
         </div>
+
+        <!-- Menu Drawer for small screens -->
+        <a-drawer :visible="menuDrawerVisible" :closable="false" :onClose="hideMenuDrawer" placement="left"
+            title="Menu">
+            <a-menu class="text-lg" :inlineCollapsed="false" v-model:selectedKeys="current" mode="vertical"
+                :items="items" />
+        </a-drawer>
+
+        <!-- Cart Drawer -->
+        <a-drawer :title="$t('cart.My cart')" :footer-style="{ textAlign: 'right' }" :closable="false" :open="open"
+            @close="onClose">
+
+            <CartComponent ref="cartComponentRef" @updateCart="handleCartUpdate" />
+
+            <template #footer>
+                <a-button style="margin-right: 8px" size="large">
+                    <router-link to="/cart" @click="onClose">
+                        {{ $t('cart.VIEW CART') }}
+                    </router-link>
+                </a-button>
+
+                <a-button type="primary" @click="checkout" size="large">
+                    <router-link to="/checkout">
+                        {{ $t('cart.CHECKOUT') }}
+                    </router-link>
+                </a-button>
+            </template>
+        </a-drawer>
     </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, computed, watch, createVNode } from 'vue';
+import { ref, onMounted, computed, watch, createVNode, onBeforeUnmount } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { ShoppingCartOutlined, SearchOutlined, UserOutlined, GlobalOutlined, CloseOutlined, ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { ShoppingCartOutlined, SearchOutlined, UserOutlined, GlobalOutlined, CloseOutlined, ExclamationCircleOutlined, MenuOutlined } from '@ant-design/icons-vue';
 import authService from '../services/auth.service';
 import { MenuProps, Modal } from 'ant-design-vue';
 import CartComponent from './Cart/CartComponent.vue';
@@ -106,6 +124,23 @@ const toggleSearch = () => {
     isSearchVisible.value = !isSearchVisible.value;
 };
 const searchKey = ref('');
+const menuDrawerVisible = ref(false);
+
+const showMenuDrawer = () => {
+    menuDrawerVisible.value = true;
+};
+
+const hideMenuDrawer = () => {
+    menuDrawerVisible.value = false;
+};
+
+const windowWidth = ref(window.innerWidth);
+const handleResize = () => {
+    windowWidth.value = window.innerWidth;
+    if (windowWidth.value >= 1024) {
+        menuDrawerVisible.value = false;
+    }
+};
 
 const open = ref<boolean>(false);
 const cartStore = useCartStore();
@@ -145,9 +180,9 @@ const cookieExists = ref(false);
 
 const logOut = () => {
     Modal.confirm({
-        title: 'Confirm Logout',
+        title: 'Xác nhận đăng xuất',
         icon: createVNode(ExclamationCircleOutlined),
-        content: 'Are you sure you want to log out? All session data will be cleared.',
+        content: 'Bạn có chắc chắn muốn đăng xuất không? Tất cả dữ liệu phiên sẽ bị xóa.',
         onOk() {
             return new Promise<void>((resolve, reject) => {
                 Cookies.remove('client_data');
@@ -156,10 +191,10 @@ const logOut = () => {
                     resolve();
                     window.location.replace("/login")
                 }, 1000);
-            }).catch(() => console.log('An error occurred!'));
+            }).catch(() => console.log('Đã xảy ra lỗi!'));
         },
         onCancel() {
-            console.log('Logout action was canceled.');
+            console.log('Hành động đăng xuất đã bị hủy.');
         },
     });
 };
@@ -237,4 +272,12 @@ watch(
         updateCurrentBasedOnRoute();
     }
 );
+
+onMounted(() => {
+    window.addEventListener('resize', handleResize);
+});
+
+onBeforeUnmount(() => {
+    window.removeEventListener('resize', handleResize);
+});
 </script>

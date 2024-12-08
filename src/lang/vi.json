@@ -107,7 +107,7 @@
   "checkout": {
     "returnToCart": "Quay lại giỏ hàng",
     "checkout": "Thanh toán",
-    "contactInformation": "Thông tin liên hệ",
+    "contactInformation": "Thông tin người nhận",
     "name": "Họ tên",
     "phone": "Số điện thoại",
     "phoneRequired": "Số điện thoại là bắt buộc!",

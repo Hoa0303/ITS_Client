@@ -7,8 +7,16 @@
                 <a-input-group compact>
                     <a-input v-model:value="minprices" size="large" style="width: 100px; text-align: center"
                         placeholder="Minimum" />
+                    <!-- <a-input-number v-model:value="minprices" size="large" style="width: 100px; text-align: center"
+                        :min="0" placeholder="Minimum"
+                        :formatter="(value: any) => `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :parser="(value: any) => value.replace(/\$\s?|(,*)/g, '')" /> -->
                     <a-input size="large" class="site-input-split"
                         style="width: 30px; border-left: 0; pointer-events: none" placeholder="~" disabled />
+                    <!-- <a-input-number v-model:value="maxprices" size="large" style="width: 100px; text-align: center"
+                        :min="0" placeholder="Maximum"
+                        :formatter="(value: any) => `đ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                        :parser="(value: any) => value.replace(/\$\s?|(,*)/g, '')" /> -->
                     <a-input v-model:value="maxprices" size="large" class="site-input-right"
                         style="width: 100px; text-align: center" placeholder="Maximum" />
                 </a-input-group>
