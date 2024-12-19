@@ -6,7 +6,7 @@
         </a-breadcrumb>
         <a-divider class="mt-1 bg-gray-100" style="height: 2px;" />
 
-        <div class="h-srceen--header">
+        <div>
             <CartList></CartList>
         </div>
     </div>

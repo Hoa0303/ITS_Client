@@ -36,7 +36,7 @@ import { Order_API } from '../../services/api_url';
 import { FormInstance, message } from 'ant-design-vue';
 import { toImageLink } from '../../services/common.service';
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'set']);
 
 const props = defineProps({
     orderId: { type: Number, default: '' },
@@ -84,7 +84,7 @@ async function submitReviews() {
         const formData = new FormData();
 
         reviewForms.forEach((review, index) => {
-            if(review.productId){
+            if (review.productId) {
                 formData.append(`reviews[${index}].productId`, review.productId);
             }
             formData.append(`reviews[${index}].description`, review.description);
@@ -94,7 +94,7 @@ async function submitReviews() {
         // logFormData(formData);
         await httpService.postWithAuth(Order_API + `/review/${props.orderId}`, formData);
         message.success("Review submitted successfully", 2);
-        handleCancel();
+        setStatus();
     } catch (error) {
         console.error("Submit error:", error);
     }
@@ -102,6 +102,10 @@ async function submitReviews() {
 
 function handleCancel() {
     emit('close');
+}
+
+function setStatus() {
+    emit('set');
 }
 
 onMounted(() => {

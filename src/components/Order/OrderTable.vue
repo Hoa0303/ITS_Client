@@ -6,6 +6,7 @@
                     <span class="text-gray-500 text-sm">from {{ item.orderDate }} - {{ item.orderTime }}</span>
                 </span>
             </div>
+
             <div class="flex items-end my-4 mx-4 gap-5">
                 <span class="flex items-center">
                     <span>{{ $t('order.status') }}:</span>
@@ -15,6 +16,12 @@
                 </span>
             </div>
         </div>
+
+        <div class="flex items-end mx-4">
+            <span class="text-lg">Mã đơn vận chuyển: {{ item.shippingCode }}
+            </span>
+        </div>
+
         <div class="grid grid-cols-2 gap-4 my-4 mx-4">
             <div>{{ $t('order.paymentMethod') }}</div>
             <div>{{ item.paymentMethod }}</div>
@@ -35,9 +42,7 @@
 
             <a-popconfirm title="Are you sure delete this order?" ok-text="Yes" cancel-text="No"
                 @confirm="cacelOrder(item.id)">
-                <a-button
-                    v-if="OrderSatus[item.orderStatus] == 'Processing' || OrderSatus[item.orderStatus] == 'Confirmed'"
-                    danger size="large">
+                <a-button v-if="OrderSatus[item.orderStatus] == 'Processing'" danger size="large">
                     {{ $t('order.cancelOrder') }}
                 </a-button>
             </a-popconfirm>
@@ -73,7 +78,7 @@
 
     <a-modal class="my-2" v-model:open="modalReview" :title="'Review order #' + selectedOrderId" :centered="true"
         :closable="false" :footer="null" :maskClosable="false">
-        <OrderReview :orderId="selectedOrderId" @close="modalReview = false" />
+        <OrderReview :orderId="selectedOrderId" @close="modalReview = false" @set="setStatus(selectedOrderId)" />
     </a-modal>
 </template>
 
@@ -136,6 +141,7 @@ async function getOrderByUserId(size: number) {
         const res = await httpService.getWithAuthPagination(Order_API + '/user', 1, size, '');
         const formData = res.items.map((item: OrderData) => ({
             id: item.id,
+            shippingCode: item.shippingCode,
             total: item.total,
             amountPaid: item.amountPaid,
             orderDate: formatDate(item.orderDate),
@@ -159,6 +165,7 @@ async function getUserOrderWithStatus(status: number, size: number) {
         const res = await httpService.getWithAuthPagination(Order_API + `/user/${status}`, 1, size, '');
         const formData = res.items.map((item: OrderData) => ({
             id: item.id,
+            shippingCode: item.shippingCode,
             total: item.total,
             amountPaid: item.amountPaid,
             orderDate: formatDate(item.orderDate),
@@ -208,6 +215,20 @@ async function receivedOrder(orderId: number) {
             orderToUpdate.orderStatus += 1;
         }
         message.success("Update status successfully", 2);
+    }
+    catch {
+        message.error("Fail to update order: ", orderId);
+    }
+}
+
+async function setStatus(orderId: number) {
+    try {
+        const orderToUpdate = orders.value.find(order => order.id === orderId);
+        if (orderToUpdate) {
+            orderToUpdate.orderStatus += 1;
+            orderToUpdate.reviewed = true;
+            modalReview.value = false
+        }
     }
     catch {
         message.error("Fail to update order: ", orderId);

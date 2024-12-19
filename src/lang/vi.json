@@ -20,6 +20,7 @@
 
   "products": {
     "Price": "Giá",
+    "InStock": "Số lượng",
     "Categories": "Danh mục",
     "Brands": "Thương hiệu",
     "Default": "Mặc định",

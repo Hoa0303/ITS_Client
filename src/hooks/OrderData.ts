@@ -2,6 +2,7 @@ import { ref } from 'vue'
 
 export interface OrderData {
   id: number
+  shippingCode: string
   paymentMethod: string
   orderStatus: number
   orderDate: string

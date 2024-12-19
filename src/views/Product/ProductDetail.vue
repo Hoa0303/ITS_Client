@@ -64,6 +64,7 @@
                                 <p class="m-1 text-[0.6rem]">{{ fomratVND(item.prices) }}</p>
                             </span>
                         </div>
+                        <div class="mt-2 text-xs">{{ $t('products.InStock') }}: {{ item.quantity }}</div>
                     </div>
                 </div>
 
